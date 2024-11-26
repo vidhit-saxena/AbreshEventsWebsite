@@ -1,6 +1,4 @@
 import ArrowWIcon from '../assets/Icons/arrow-right.svg'
-import Person1Image from '../assets/images/Image-person1.png'
-import Person2Image from '../assets/images/Image-person2.png'
 import StarImage from '../assets/images/star.png'
 import PyramidImage from '../assets/images/pyramid.png'
 import Image from 'next/image'
