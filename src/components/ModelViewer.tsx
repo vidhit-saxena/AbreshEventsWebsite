@@ -1,55 +1,220 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const ModelViewer: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const modelRef = useRef<THREE.Group | null>(null);
+  const markerRef = useRef<THREE.Mesh | null>(null);
+  const hoverMeshRef = useRef<THREE.Mesh | null>(null);
+  const rippleRef = useRef<THREE.Mesh | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const controlsRef = useRef<OrbitControls | null>(null);
+  
+  // State for hover and marker position
+  const [isHovering, setIsHovering] = useState(false);
+  const [markerScreenPosition, setMarkerScreenPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !mountRef.current) return;
+    // Early return if window is undefined or mount ref is null
+    if (typeof window === 'undefined' || !mountRef.current) return () => {};
 
     // Scene setup
     const scene = new THREE.Scene();
+    sceneRef.current = scene;
+    
+    const currentMount = mountRef.current;
     const camera = new THREE.PerspectiveCamera(
       70,
-      mountRef.current.clientWidth / mountRef.current.clientHeight,
+      currentMount.clientWidth / currentMount.clientHeight,
       0.9,
       1000
     );
+    cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setClearColor(0x000000);
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-    mountRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+    currentMount.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.06);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 5, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(-22, 44, -8);
     scene.add(directionalLight);
 
-    camera.position.z = 2.2;
+    // Adjust camera position to look at the globe and slightly downward
+    camera.position.set(0, 1, 2);
 
     const controls = new OrbitControls(camera, renderer.domElement);
+    controlsRef.current = controls;
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.screenSpacePanning = false;
     controls.maxPolarAngle = Math.PI / 2;
 
+    // Disable zoom
+    (controls as any).enableZoom = false;
+
     const loader = new GLTFLoader();
     loader.load(
-      '/earth.glb',
+      '/earth.glb', // Earth model path
       (gltf) => {
         const model = gltf.scene;
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         model.position.sub(center);
 
+        // Adjust model position to bring India into view
+        model.rotation.y = Math.PI; // Rotate the model to show India
+        model.position.set(0, 0, 0); // Center the model
+
         scene.add(model);
+        modelRef.current = model;
+
+        // Create marker with ripple effect
+        const createMarkerWithRipple = () => {
+          // Marker
+          const markerGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+          const markerMaterial = new THREE.MeshBasicMaterial({ color: 0x00D6FF });
+          const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+
+          // Ripple
+          const rippleGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+          const rippleMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              time: { value: 0 },
+              color: { value: new THREE.Color(0x00D6FF) },
+              opacity: { value: 0.5 }
+            },
+            vertexShader: `
+              uniform float time;
+              varying vec3 vPosition;
+              void main() {
+                vPosition = position;
+                vec3 newPosition = position * (1.0 + sin(time * 3.0) * 0.5);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+              }
+            `,
+            fragmentShader: `
+              uniform float time;
+              uniform vec3 color;
+              uniform float opacity;
+              varying vec3 vPosition;
+              void main() {
+                float pulse = sin(time * 3.0) * 0.5 + 0.5;
+                float alpha = opacity * (1.0 - length(vPosition)) * pulse;
+                gl_FragColor = vec4(color, alpha);
+              }
+            `,
+            transparent: true,
+            depthWrite: false
+          });
+          const ripple = new THREE.Mesh(rippleGeometry, rippleMaterial);
+
+          // Set marker and ripple position
+          const radius = 1.12;
+          const latitude = 28.6139; // New Delhi latitude
+          const longitude = 165.2090; // Corrected longitude for New Delhi
+
+          // Convert latitude/longitude to radians
+          const latRad = THREE.MathUtils.degToRad(latitude);
+          const lonRad = THREE.MathUtils.degToRad(longitude);
+
+          // Spherical to Cartesian conversion
+          const x = radius * Math.cos(latRad) * Math.sin(lonRad);
+          const y = radius * Math.sin(latRad);
+          const z = radius * Math.cos(latRad) * Math.cos(lonRad);
+
+          // Position marker and ripple
+          marker.position.set(x, y, z);
+          ripple.position.set(x, y, z);
+
+          // Create larger invisible hover area
+          const hoverGeometry = new THREE.SphereGeometry(0.2, 32, 32); // Increased hover area
+          const hoverMaterial = new THREE.MeshBasicMaterial({ 
+            transparent: true, 
+            opacity: 0 
+          });
+          const hoverMesh = new THREE.Mesh(hoverGeometry, hoverMaterial);
+          hoverMesh.position.set(x, y, z);
+
+          // Scale adjustments
+          marker.scale.set(0.3, 0.3, 0.3);
+          ripple.scale.set(1, 1, 1);
+          hoverMesh.scale.set(1, 1, 1);
+
+          // Add to scene
+          model.add(marker);
+          model.add(ripple);
+          model.add(hoverMesh);
+
+          markerRef.current = marker;
+          rippleRef.current = ripple;
+          hoverMeshRef.current = hoverMesh;
+
+          // Add event listeners for hover
+          const raycaster = new THREE.Raycaster();
+          const mouse = new THREE.Vector2();
+
+          const onMouseMove = (event: MouseEvent) => {
+            if (!currentMount || !camera || !scene || !hoverMesh) return;
+
+            // Calculate mouse position in normalized device coordinates
+            const rect = currentMount.getBoundingClientRect();
+            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            // Update the picking ray with the camera and mouse position
+            raycaster.setFromCamera(mouse, camera);
+
+            // Use the hover mesh for intersection
+            const intersects = raycaster.intersectObject(hoverMesh, true);
+
+            if (intersects.length > 0) {
+              setIsHovering(true);
+              
+              // Convert marker's world position to screen coordinates
+              const markerWorldPosition = new THREE.Vector3();
+              marker.getWorldPosition(markerWorldPosition);
+
+              // Project the world position to screen coordinates
+              const screenPosition = markerWorldPosition.clone();
+              screenPosition.project(camera);
+
+              // Convert to screen space
+              const halfWidth = rect.width / 2;
+              const halfHeight = rect.height / 2;
+              
+              const screenX = (screenPosition.x * halfWidth) + halfWidth + rect.left;
+              const screenY = -(screenPosition.y * halfHeight) + halfHeight + rect.top;
+
+              setMarkerScreenPosition({ x: screenX, y: screenY });
+            } else {
+              setIsHovering(false);
+            }
+          };
+
+          currentMount.addEventListener('mousemove', onMouseMove);
+
+          // Cleanup function
+          return () => {
+            currentMount.removeEventListener('mousemove', onMouseMove);
+          };
+        };
+
+        // Create marker and ripple after the globe is loaded
+        const cleanup = createMarkerWithRipple();
+
+        // Return cleanup function
+        return cleanup;
       },
       (event: ProgressEvent) => {
         console.log(`Loading progress: ${(event.loaded / event.total) * 100}%`);
@@ -59,17 +224,29 @@ const ModelViewer: React.FC = () => {
       }
     );
 
+    const clock = new THREE.Clock();
     const animate = () => {
       requestAnimationFrame(animate);
+      
+      if (modelRef.current) {
+        modelRef.current.rotation.y += 0.001;
+      }
+
+      // Update ripple shader time uniform
+      if (rippleRef.current) {
+        const rippleMaterial = rippleRef.current.material as THREE.ShaderMaterial;
+        rippleMaterial.uniforms.time.value = clock.getElapsedTime();
+      }
+
       controls.update();
       renderer.render(scene, camera);
     };
     animate();
 
     const handleResize = () => {
-      if (mountRef.current) {
-        const width = mountRef.current.clientWidth;
-        const height = mountRef.current.clientHeight;
+      if (currentMount) {
+        const width = currentMount.clientWidth;
+        const height = currentMount.clientHeight;
 
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
@@ -78,22 +255,89 @@ const ModelViewer: React.FC = () => {
     };
     window.addEventListener('resize', handleResize);
 
+    // Comprehensive cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      mountRef.current?.removeChild(renderer.domElement);
+      
+      // Dispose of Three.js resources
+      renderer.dispose();
       controls.dispose();
+      
+      // Remove renderer from DOM
+      if (currentMount && renderer.domElement.parentNode === currentMount) {
+        currentMount.removeChild(renderer.domElement);
+      }
     };
-  }, []);
+  }, []); // Empty dependency array ensures this runs only once
 
   return (
-    <div
-      ref={mountRef}
-      className="w-full bg-black 
-        h-[300px]  /* Default height for small screens (Mobile) */
-        sm:h-[400px] /* Height for small devices like tablets */
-        md:h-[500px]  /* Medium screens (laptops) */
-        lg:h-[600px] /* Large screens (desktops) */"
-    />
+    <div className="bg-black">
+      <div className="w-full min-h-screen bg-black/90 py-12 px-4">
+        <div className="max-w-7xl mx-auto container">
+          {/* Section Heading */}
+          <h2 className="text-white text-3xl font-bold mb-20 text-center">
+            What we do
+          </h2>
+
+          {/* Main Content Container */}
+          <div className="flex flex-col 
+            lg:flex-row 
+            gap-8"
+          >
+            {/* Slider/Content Container - Left on large screens, top on small screens */}
+            <div className="w-full lg:w-1/2 
+              flex justify-center items-center"
+            >
+              <div className="w-full bg-gray-800 p-6 rounded-lg text-white
+                h-[300px]  
+                sm:h-[400px] 
+                md:h-[450px]  
+                lg:h-[500px]
+                flex flex-col"
+              >
+                <h3 className="text-2xl font-semibold mb-4">Explore Our events</h3>
+                {/* Placeholder for your slider */}
+                <div className="flex-grow bg-gray-700 flex justify-center items-center">
+                  Sliders
+                </div>
+              </div>
+            </div>
+
+            {/* Globe Container - Right on large screens, bottom on small screens */}
+            <div className="w-full lg:w-1/2 
+              flex justify-center items-center"
+            >
+              <div className="w-full relative
+                h-[300px]  
+                sm:h-[400px] 
+                md:h-[450px]  
+                lg:h-[500px]"
+              >
+                <div
+                  ref={mountRef}
+                  className="absolute inset-0 bg-black"
+                />
+                {isHovering && (
+                  <div 
+                    className="fixed bg-white/80 text-black p-3 rounded-lg shadow-lg text-sm"
+                    style={{
+                      top: `${markerScreenPosition.y}px`, 
+                      left: `${markerScreenPosition.x}px`,
+                      transform: 'translate(-50%, -50%)',
+                      pointerEvents: 'none',
+                      zIndex: 10
+                    }}
+                  >
+                    <p className="font-bold">New Delhi, India</p>
+                    <p>44, Regal Building, Connaught Place</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
