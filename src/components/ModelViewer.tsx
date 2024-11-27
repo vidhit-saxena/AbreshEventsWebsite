@@ -43,10 +43,10 @@ const ModelViewer: React.FC = () => {
     renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
     currentMount.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.06);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.03);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.1);
     directionalLight.position.set(-22, 44, -8);
     scene.add(directionalLight);
 
@@ -271,33 +271,34 @@ const ModelViewer: React.FC = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   return (
-    <div className="bg-black">
-      <div className="w-full min-h-screen bg-black/90 py-12 px-4">
-        <div className="max-w-7xl mx-auto container">
+    <div className="bg-black text-white py-[72px] sm:py-24">
+      <div className="w-full bg-black/90 py-10 sm:py-4 px-4">
+        <div className="container">
           {/* Section Heading */}
-          <h2 className="text-white text-3xl font-bold mb-20 text-center">
-            What we do
+          <h2 className="text-center font-bold text-5xl sm:text-6xl tracking-tighter ">
+            Everything we do
           </h2>
-
+          <div className="max-w-xl mx-auto">
+            <p className="text-center mt-5 text-xl text-white/70">
+            We are passionate about delivering excellence in everything we do, creating an impact on our customers and the world.
+            </p>
+          </div>
           {/* Main Content Container */}
-          <div className="flex flex-col 
-            lg:flex-row 
-            gap-8"
-          >
+          <div className=" broder border-white/30 flex flex-col mt-16 lg:flex-row gap-8">
+
             {/* Slider/Content Container - Left on large screens, top on small screens */}
-            <div className="w-full lg:w-1/2 
-              flex justify-center items-center"
-            >
+            <div className="w-full lg:w-1/2 flex justify-center items-center">
+
               <div className="w-full bg-gray-800 p-6 rounded-lg text-white
                 h-[300px]  
                 sm:h-[400px] 
-                md:h-[450px]  
+                md:h-[500px]  
                 lg:h-[500px]
                 flex flex-col"
               >
-                <h3 className="text-2xl font-semibold mb-4">Explore Our events</h3>
+                <h3 className="text-center mt-2 text-2xl sm:text-3xl font-semibold mb-4 tracking-tighter">Explore Our events</h3>
                 {/* Placeholder for your slider */}
-                <div className="flex-grow bg-gray-700 flex justify-center items-center">
+                <div className="flex-grow bg-gray-700 flex justify-center mt-2 items-center">
                   Sliders
                 </div>
               </div>
@@ -309,8 +310,8 @@ const ModelViewer: React.FC = () => {
             >
               <div className="w-full relative
                 h-[300px]  
-                sm:h-[400px] 
-                md:h-[450px]  
+                sm:h-[500px] 
+                md:h-[500px]  
                 lg:h-[500px]"
               >
                 <div
