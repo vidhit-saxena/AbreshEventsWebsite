@@ -1,10 +1,12 @@
 'use client';
 
-import ModelViewer from '@/components/ModelViewer';
-import { Banner } from "@/components/Banner";
-import { Navbar } from "@/components/Navbar";
-import {Hero} from "@/components/Hero"
-import { LogoTicker } from "@/components/LogoTicker";
+import ModelViewer from '@/Sections/ModelViewer';
+import { Banner } from "@/Sections/Banner";
+import { Navbar } from "@/Sections/Navbar";
+import {Hero} from "@/Sections/Hero"
+import { LogoTicker } from "@/Sections/LogoTicker";
+import Introduction  from "@/Sections/Introduction";
+
 
 
 export default function Home() {
@@ -15,6 +17,7 @@ export default function Home() {
       <Hero/>
       <LogoTicker/>
       <ModelViewer/>
+      <Introduction/>
     </>
   );
 }

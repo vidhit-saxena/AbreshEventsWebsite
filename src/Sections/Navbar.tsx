@@ -9,7 +9,7 @@ export const Navbar = () => {
             <div className="px-4">
                 <div className="py-4 flex items-center justify-between">
                     <div className="relative">
-                        <div className="absolute w-full top-2 bottom-0 bg-custom-gradient-light blur-md"></div>
+                        <div className="absolute w-full top-2 bottom-0 "></div>
                         <Image 
                             src={logoImage} 
                             alt="Abresh Events logo" 

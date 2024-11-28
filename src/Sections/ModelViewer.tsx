@@ -329,8 +329,8 @@ const ModelViewer: React.FC = () => {
                       zIndex: 10
                     }}
                   >
-                    <p className="font-bold">New Delhi, India</p>
-                    <p>44, Regal Building, Connaught Place</p>
+                    <p className="font-bold text-blue-950">New Delhi, India</p>
+                    
                   </div>
                 )}
               </div>
