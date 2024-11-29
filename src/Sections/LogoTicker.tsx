@@ -1,40 +1,62 @@
+'use client';
+
 import Image from "next/image";
-import HappyCustomer from '../assets/images/Happy-customer.png'
-import ProjectDone from '../assets/images/Project-done.png'
-import YearsExperience from '../assets/images/Year-experience.png'
-import HappyCustomer1 from '../assets/images/Happy-customer1.png'
-import ProjectDone1 from '../assets/images/Project-done1.png'
-import YearsExperience1 from '../assets/images/Year-experience1.png'
+import EnvatoLogo from '../assets/images/envato.png'
+import AmazonLogo from '../assets/images/amazon.png'
+import GoogleLogo from '../assets/images/google.png'
+import NetflixLogo from '../assets/images/netflix.png'
+import SlackLogo from '../assets/images/slack.png'
+import SpotifyLogo from '../assets/images/spotify.png'
+import {motion} from 'framer-motion'
+
 
 const images = [
-  { id: 1, src: HappyCustomer, alt: "Happy Customer" }, 
-  { id: 2, src: ProjectDone, alt: "Project Done" }, 
-  { id: 3, src: YearsExperience, alt: "Years Experience" },
-  { id: 4, src: HappyCustomer1, alt: "Years Experience 1" },
-  { id: 5, src: ProjectDone1, alt: "Years Experience 1" },
-  { id: 6, src: YearsExperience1, alt: "Years Experience 1" },
+  { id: 'envato', src: EnvatoLogo, alt: "Envato Logo" }, 
+  { id: 'amazon', src: AmazonLogo, alt: "Amazon Logo" }, 
+  { id: 'google', src: GoogleLogo, alt: "Google Logo" },
+  { id: 'netflix', src: NetflixLogo, alt: "Netflix Logo" },
+  { id: 'slack', src: SlackLogo, alt: "Slack Logo" },
+  { id: 'spotify', src: SpotifyLogo, alt: "Spotify Logo" },
 ];
 
-export const LogoTicker = () => {
+export default function LogoTicker() {
   return (
-    <div className="bg-black text=white py-[72px] sm-py-24">
-      <div className="container ">
-        <h2 className="text-2xl text-center text-white/80">
-          Trusted by the world's most innovative teams
-        </h2>
-        <div className="overflow-hidden mt-9 before:content-[''] after:content-[''] before:absolute after:absolute before:h-full after:h-full before:w-5 after:w-20 relative after:right-0 before:left-0 before:top-0 after:top-0 before:bg-[linear-gradient(to_right,#000,rgb(0,0,0,0))]  after:bg-[linear-gradient(to_left,#000,rgb(0,0,0,0))]">
-          <div className="flex gap-16 mt-2">
-            {images.map(({id, src, alt}) => (
-              <Image
-                key={id}
-                src={src}
-                alt={alt}
-                className="flex-none h-10 w-auto opacity-60"
-              />
-            ))}
+      <div className="bg-black text-white py-[72px] sm:py-24">
+        <div className="container">
+          <h2 className="text-xl text-center text-white/50">
+            Trusted by the world's most innovative teams
+          </h2>
+          <div className="flex overflow-hidden mt-9 before:content-[''] before:z-10 after:content-[''] before:absolute after:absolute before:h-full after:h-full before:w-40 after:w-40 relative after:right-0 before:left-0 before:top-0 after:top-0 before:bg-[linear-gradient(to_right,#000,rgb(0,0,0,0))]  after:bg-[linear-gradient(to_left,#000,rgb(0,0,0,0))]">
+            <motion.div 
+              transition={{
+                duration: 20,
+                ease: "linear",
+                repeat: Infinity,
+              }}
+              initial={{translate: 0}} 
+              animate={{translate: "-50%"}}
+              className="flex gap-16 flex-none pr-16"
+            >
+              {images.map(({id, src, alt}) => (
+                <Image 
+                  key={id} 
+                  src={src} 
+                  alt={alt} 
+                  className="flex-none h-12 w-auto"
+                />
+              ))}
+              {images.map(({id, src, alt}) => (
+                <Image 
+                  key={id} 
+                  src={src} 
+                  alt={alt} 
+                  className="flex-none h-12 w-auto"
+                />
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
   );
-};
+}
+    
