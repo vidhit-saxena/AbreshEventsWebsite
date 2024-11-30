@@ -275,7 +275,7 @@ const ModelViewer: React.FC = () => {
       <div className="w-full bg-black/90 py-10 sm:py-4 px-4">
         <div className="container">
           {/* Section Heading */}
-          <h2 className="text-center font-bold text-5xl sm:text-6xl tracking-tighter ">
+          <h2 className="text-center font-bold text-4xl sm:text-6xl tracking-tighter ">
             Everything we do
           </h2>
           <div className="max-w-xl mx-auto">

@@ -6,8 +6,9 @@ import { Navbar } from "@/Sections/Navbar";
 import {Hero} from "@/Sections/Hero"
 import LogoTicker from "@/Sections/LogoTicker";
 import Introduction  from "@/Sections/Introduction";
-import AllEvents from "@/Sections/AllEvents"
-
+import AllEvents from "@/Sections/AllEvents";
+import  {Services}   from "@/Sections/Services";
+import { Testimonials } from '@/Sections/Testimonials';
 
 
 export default function Home() {
@@ -20,6 +21,8 @@ export default function Home() {
       <ModelViewer/>
       <Introduction/>
       <AllEvents/>
+      <Services/>
+      <Testimonials/>
     </>
   );
 }
