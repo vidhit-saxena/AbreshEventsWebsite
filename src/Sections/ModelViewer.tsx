@@ -270,6 +270,8 @@ const ModelViewer: React.FC = () => {
     };
   }, []); // Empty dependency array ensures this runs only once
 
+
+
   return (
     <div className="bg-black text-white py-[72px] sm:py-24">
       <div className="w-full bg-black/90 py-10 sm:py-4 px-4">

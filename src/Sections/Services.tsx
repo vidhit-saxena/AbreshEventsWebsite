@@ -59,7 +59,7 @@ export const Services = () => {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <section className="bg-black relative overflow-hidden py-[72px] px-4">
+        <section className="bg-black relative overflow-hidden py-16 lg:py-32 px-4">
             {/* Subtle Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20 opacity-50 blur-3xl"></div>
 
@@ -71,10 +71,10 @@ export const Services = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-4xl md:text-6xl font-bold text-transparent mb-4 text-white">
+                    <h2 className="text-4xl md:text-6xl lg:text-6xl font-bold text-transparent mb-4 text-white">
                         Our Services
                     </h2>
-                    <p className="max-w-2xl mx-auto text-lg text-gray-400">
+                    <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-400">
                         Transforming your digital presence with cutting-edge strategies and innovative communication solutions.
                     </p>
                 </motion.div>

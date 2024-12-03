@@ -68,7 +68,7 @@ export default function MusicEventsSlider() {
         <section className="py-16 lg:py-32 bg-black px-4 sm:px-6 md:px-8 lg:px-0 min-h-[600px]">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
                 {/* Section Heading */}
-                <h2 className="text-center font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter text-white mb-6">
+                <h2 className="text-center font-bold text-4xl sm:text-5xl md:text-6xl lg:text-6xl tracking-tighter text-white mb-6">
                     Our Events
                 </h2>
                 <div className="max-w-xl mx-auto">

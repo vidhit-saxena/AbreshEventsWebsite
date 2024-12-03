@@ -9,6 +9,8 @@ import Introduction  from "@/Sections/Introduction";
 import AllEvents from "@/Sections/AllEvents";
 import  {Services}   from "@/Sections/Services";
 import { Testimonials } from '@/Sections/Testimonials';
+import  FAQs  from '@/Sections/FAQs';
+import { Gallery } from '@/Sections/Gallery';
 
 
 export default function Home() {
@@ -23,6 +25,9 @@ export default function Home() {
       <AllEvents/>
       <Services/>
       <Testimonials/>
+      <Gallery/>
+      <FAQs/>
+      
     </>
   );
 }
