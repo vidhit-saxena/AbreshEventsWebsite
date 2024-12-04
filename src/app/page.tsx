@@ -7,10 +7,15 @@ import {Hero} from "@/Sections/Hero"
 import LogoTicker from "@/Sections/LogoTicker";
 import Introduction  from "@/Sections/Introduction";
 import AllEvents from "@/Sections/AllEvents";
-import  {Services}   from "@/Sections/Services";
+import  Services   from "@/Sections/Services";
 import { Testimonials } from '@/Sections/Testimonials';
 import  FAQs  from '@/Sections/FAQs';
 import { Gallery } from '@/Sections/Gallery';
+import {TopEvents} from '@/Sections/TopEvents';
+import Footer from '@/Sections/Footer';
+import NewsletterSignup from '@/Sections/NewsletterSignUp';
+import ContactUs from '@/Sections/ContactUs';
+
 
 
 export default function Home() {
@@ -26,7 +31,11 @@ export default function Home() {
       <Services/>
       <Testimonials/>
       <Gallery/>
+      <TopEvents/>
       <FAQs/>
+      <ContactUs/>
+      <NewsletterSignup/>
+      <Footer/>
       
     </>
   );

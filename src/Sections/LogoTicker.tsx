@@ -35,7 +35,7 @@ export default function LogoTicker() {
               }}
               initial={{translate: 0}} 
               animate={{translate: "-50%"}}
-              className="flex gap-16 flex-none pr-16"
+              className="flex gap-16 flex-none pr-16 width: max-content"
             >
               {images.map(({id, src, alt}) => (
                 <Image 
