@@ -4,7 +4,7 @@ import React, { FC } from "react";
 
 const NewsletterSignup: FC = () => {
     return (
-        <section className="bg-[#171717] text-white py-20 px-4 sm:px-6 lg:px-8">
+        <section className="bg-[#18181c] text-white py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <h2 className="text-4xl md:text-6xl font-bold text-center lg:text-left mb-8 tracking-tight">
                     Newsletter Signup
@@ -19,7 +19,7 @@ const NewsletterSignup: FC = () => {
                     </div>
 
                     {/* Input Section */}
-                    <div className="w-full md:w-2/5 max-w-md">
+                    <div className="w-full md:w-3/5 lg:w-2/5 max-w-md">
                         <div className="relative">
                             <input
                                 type="email"
@@ -33,7 +33,7 @@ const NewsletterSignup: FC = () => {
                                 bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded-md 
                                 font-medium transition-colors duration-300"
                             >
-                                Submit
+                                Subscribe
                             </button>
                         </div>
                     </div>

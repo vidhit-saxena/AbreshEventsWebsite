@@ -6,7 +6,7 @@ import Logo from "@/assets/images/logo.png"
 
 const Footer: FC = () => {
     return (
-        <footer className="bg-[#171717] text-white/90 py-10">
+        <footer className="bg-[#18181c] text-white/90 py-4">
             <div className="max-w-7xl mx-auto px-5">
                 
                 {/* Top Section */}

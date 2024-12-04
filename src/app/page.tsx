@@ -15,6 +15,7 @@ import {TopEvents} from '@/Sections/TopEvents';
 import Footer from '@/Sections/Footer';
 import NewsletterSignup from '@/Sections/NewsletterSignUp';
 import ContactUs from '@/Sections/ContactUs';
+import  UpcomingEvents  from '@/Sections/UpcomingEvents';
 
 
 
@@ -32,6 +33,7 @@ export default function Home() {
       <Testimonials/>
       <Gallery/>
       <TopEvents/>
+      <UpcomingEvents/>
       <FAQs/>
       <ContactUs/>
       <NewsletterSignup/>

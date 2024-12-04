@@ -5,9 +5,8 @@ import { FaYoutube, FaLinkedin, FaTwitter, FaFacebook, FaInstagram } from 'react
 
 const ContactUs: FC = () => {
     return (
-        <section className="bg-[#1a1a2e] text-white py-16 px-4 sm:px-6 lg:px-8">
+        <section className="bg-[length:200%_200%] bg-gradient-to-b from-[#1a1a2e] via-[#121212] to-[#1a1a2e] text-white py-16 px-4 sm:px-6 lg:px-8 animate-gradient-move">
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
                 {/* Left Section - Contact Info */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                     <div className="max-w-md">
@@ -134,7 +133,7 @@ const ContactUs: FC = () => {
                                 id="message"
                                 name="message"
                                 rows={4}
-                                placeholder="Type Here"
+                                placeholder="eg. I would love to connect with you"
                                 className="mt-1 p-2 w-full rounded-md border border-gray-500 bg-transparent text-white focus:ring-purple-500 focus:border-purple-500"
                             ></textarea>
                         </div>
