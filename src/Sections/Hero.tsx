@@ -6,11 +6,14 @@ import PyramidImage from '../assets/images/pyramid.png';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { DotLottiePlayer } from '@dotlottie/react-player';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export const Hero = () => {
     const [isDragging, setIsDragging] = useState(false);
-    const [isClicked, setIsClicked] = useState(false); // To track if the image has been clicked
+    const [isClicked, setIsClicked] = useState(false);
+
+    // Create a ref for the next section
+    const nextSectionRef = useRef<HTMLDivElement>(null);
 
     const handleDragStart = () => {
         setIsDragging(true);
@@ -21,13 +24,22 @@ export const Hero = () => {
     };
 
     const handleImageClick = () => {
-        setIsClicked(true); // Set clicked state to true when the image is clicked
+        setIsClicked(true);
     };
 
     const handleMouseEnter = () => {
         if (!isClicked) {
-            // Only show the text if the image is not clicked
             setIsClicked(false);
+        }
+    };
+
+    // New function to handle smooth scrolling
+    const handleExploreClick = () => {
+        if (nextSectionRef.current) {
+            nextSectionRef.current.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     };
 
@@ -66,7 +78,7 @@ export const Hero = () => {
                             onDragStart={handleDragStart}
                             onDragEnd={handleDragEnd}
                             onClick={handleImageClick}
-                            onMouseEnter={handleMouseEnter} // Only show text if not clicked
+                            onMouseEnter={handleMouseEnter}
                         >
                             <div className="relative w-full h-full">
                                 <Image
@@ -102,7 +114,7 @@ export const Hero = () => {
                             onDragStart={handleDragStart}
                             onDragEnd={handleDragEnd}
                             onClick={handleImageClick}
-                            onMouseEnter={handleMouseEnter} // Only show text if not clicked
+                            onMouseEnter={handleMouseEnter}
                         >
                             <div className="relative w-full h-full">
                                 <Image
@@ -136,11 +148,17 @@ export const Hero = () => {
                     </p>
                 </div>
                 <div className="flex justify-center mt-8">
-                    <button className="relative px-6 py-3 font-medium text-black bg-white rounded-lg shadow-md hover:bg-black hover:text-white hover:scale-105 transition duration-300 ease-in-out">
+                    <button 
+                        onClick={handleExploreClick}
+                        className="relative px-5 py-3 font-medium text-black bg-white/80 rounded-lg shadow-m hover:scale-110 transition duration-300 ease-in-out"
+                    >
                         <span>Explore</span>
                     </button>
                 </div>
             </div>
+
+            {/* Ref for the next section - you'll need to add this to the next section component */}
+            <div ref={nextSectionRef}></div>
         </div>
     );
 };

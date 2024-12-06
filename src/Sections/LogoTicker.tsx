@@ -53,6 +53,14 @@ export default function LogoTicker() {
                   className="flex-none h-12 w-auto"
                 />
               ))}
+              {images.map(({id, src, alt}) => (
+                <Image 
+                  key={id} 
+                  src={src} 
+                  alt={alt} 
+                  className="flex-none h-12 w-auto"
+                />
+              ))}
             </motion.div>
           </div>
         </div>
