@@ -5,7 +5,7 @@ import { FaYoutube, FaLinkedin, FaTwitter, FaFacebook, FaInstagram } from 'react
 
 const ContactUs: FC = () => {
     return (
-        <section className="bg-[length:200%_200%] bg-gradient-to-b from-[#1a1a2e] via-[#121212] to-[#1a1a2e] text-white py-16 px-4 sm:px-6 lg:px-8 animate-gradient-move">
+        <section id="contact" className="bg-[length:200%_200%] bg-gradient-to-b from-[#1a1a2e] via-[#121212] to-[#1a1a2e] text-white py-16 px-4 sm:px-6 lg:px-8 animate-gradient-move">
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Left Section - Contact Info */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -83,15 +83,15 @@ const ContactUs: FC = () => {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="lastName" className="block text-sm font-medium text-gray-300">
+                                <label htmlFor="lastName" className="block text-sm font-medium text-gray-300/5">
                                     Last Name
                                 </label>
                                 <input
                                     type="text"
                                     id="lastName"
                                     name="lastName"
-                                    placeholder="Type Here"
-                                    className="mt-1 p-2 w-full rounded-md border border-gray-500 bg-transparent text-white focus:ring-purple-500 focus:border-purple-500"
+                                    placeholder="your name"
+                                    className="mt-1 p-2 w-full rounded-md  border border-gray-500 bg-transparent text-white focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>
                         </div>
@@ -106,7 +106,7 @@ const ContactUs: FC = () => {
                                     type="email"
                                     id="email"
                                     name="email"
-                                    placeholder="Type Here"
+                                    placeholder="yourname@gmail.com"
                                     className="mt-1 p-2 w-full rounded-md border border-gray-500 bg-transparent text-white focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>
@@ -118,7 +118,7 @@ const ContactUs: FC = () => {
                                     type="tel"
                                     id="phone"
                                     name="phone"
-                                    placeholder="Type Here"
+                                    placeholder="8824797832"
                                     className="mt-1 p-2 w-full rounded-md border border-gray-500 bg-transparent text-white focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>

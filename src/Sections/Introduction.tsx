@@ -20,7 +20,7 @@ export default function Introduction() {
     const opacity = useTransform(scrollYProgress, [0, 1], [0.5, 1]);
 
     return (
-        <section className="py-16 lg:py-32 bg-black px-4 sm:px-6 md:px-8 lg:px-0">
+        <section id="about-us" className="py-16 lg:py-32 bg-black px-4 sm:px-6 md:px-8 lg:px-0">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
                 <div className="flex justify-center">
                     <Tag>Introducing ABResh Events</Tag>

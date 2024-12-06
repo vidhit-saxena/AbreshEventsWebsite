@@ -15,6 +15,15 @@ const config: Config = {
       backgroundImage: {
         'custom-gradient': 'linear-gradient(to right, #FCD6FF, #29D8FF, #FFFD80, #F89AB8, #FCD6FF)',
         'custom-gradient-light': 'linear-gradient(to right, rgba(252, 214, 255, 0.7), rgba(41, 216, 255, 0.7), rgba(255, 253, 128, 0.7), rgba(248, 154, 184, 0.7), rgba(252, 214, 255, 0.7))',
+      },
+      animation: {
+        'gradient-move': 'gradient-move 5s ease infinite',
+      },
+      keyframes: {
+        'gradient-move': {
+          '0%, 100%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+        }
       }
     },
   },

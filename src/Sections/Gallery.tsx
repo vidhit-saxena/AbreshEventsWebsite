@@ -46,7 +46,7 @@ export const Gallery: React.FC = () => {
   }
 
   return (
-    <section className='relative bg-black w-full'>
+    <section id="our-gallery" className='relative bg-black w-full'>
       <div className='container mx-auto px-4 py-16 sm:py-20 md:py-20'>
         <div className='text-center mb-8 sm:mb-10'>
           <h2 className='text-4xl sm:text-4xl md:text-6xl font-bold text-white mb-4'>

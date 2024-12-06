@@ -59,7 +59,7 @@ export const Services = () => {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <section className="bg-black relative overflow-hidden py-16 lg:py-32 px-4">
+        <section id="services" className="bg-black relative overflow-hidden py-16 lg:py-32 px-4">
             {/* Subtle Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20 opacity-50 blur-3xl"></div>
 

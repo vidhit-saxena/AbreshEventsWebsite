@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import ServicesCarousel from './ServiceSlider';
 
 const ModelViewer: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -273,48 +274,38 @@ const ModelViewer: React.FC = () => {
 
 
   return (
-    <div className="bg-black text-white py-[72px] sm:py-24">
+    
+    <section id="what-we-do"  className="bg-black text-white py-[72px] sm:py-24 ">
       <div className="w-full bg-black/90 py-10 sm:py-4 px-4">
         <div className="container">
           {/* Section Heading */}
-          <h2 className="text-center font-bold text-4xl sm:text-6xl tracking-tighter ">
+          <h2 className="text-center font-bold text-4xl sm:text-6xl tracking-tighter">
             Everything we do
           </h2>
           <div className="max-w-xl mx-auto">
             <p className="text-center mt-5 text-xl text-white/70">
-            We are passionate about delivering excellence in everything we do, creating an impact on our customers and the world.
+              We are passionate about delivering excellence in everything we do, creating an impact on our customers and the world.
             </p>
           </div>
+          
           {/* Main Content Container */}
-          <div className=" broder border-white/30 flex flex-col mt-16 lg:flex-row gap-8">
-
+          <div className=" flex flex-col sm:mt-12 mt-4 lg:flex-row gap-4 sm:gap-4">
             {/* Slider/Content Container - Left on large screens, top on small screens */}
             <div className="w-full lg:w-1/2 flex justify-center items-center">
-
-              <div className="w-full bg-gray-800 p-6 rounded-lg text-white
-                h-[300px]  
-                sm:h-[400px] 
-                md:h-[500px]  
-                lg:h-[500px]
-                flex flex-col"
-              >
-                <h3 className="text-center mt-2 text-2xl sm:text-3xl font-semibold mb-4 tracking-tighter">Explore Our events</h3>
-                {/* Placeholder for your slider */}
-                <div className="flex-grow bg-gray-700 flex justify-center mt-2 items-center">
-                  Sliders
-                </div>
+              {/* Left: Slider Section */}
+              <div className="w-full h-[550px]  rounded-lg text-white flex flex-col">
+                <ServicesCarousel />
               </div>
             </div>
-
+            
             {/* Globe Container - Right on large screens, bottom on small screens */}
             <div className="w-full lg:w-1/2 
               flex justify-center items-center"
             >
               <div className="w-full relative
-                h-[300px]  
-                sm:h-[500px] 
+                h-[380px]  
                 md:h-[500px]  
-                lg:h-[500px]"
+                lg:h-[550px]"
               >
                 <div
                   ref={mountRef}
@@ -331,7 +322,7 @@ const ModelViewer: React.FC = () => {
                       zIndex: 10
                     }}
                   >
-                    <p className="font-bold text-blue-950">New Delhi, India</p>
+                    <p className=" text-black">New Delhi, India</p>
                     
                   </div>
                 )}
@@ -340,8 +331,11 @@ const ModelViewer: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 export default ModelViewer;
+
+  
+  
