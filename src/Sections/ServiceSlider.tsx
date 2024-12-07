@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -64,12 +62,17 @@ export default function ServicesCarousel() {
             },
             640: {
                 slidesPerView: 2,
-                spaceBetween: -100,
+                spaceBetween: -160,
             },
             1024: {
                 slidesPerView: 2,
-                spaceBetween: -10,
+                spaceBetween: -200,
             },
+            1540: {
+                slidesPerView: 2,
+                spaceBetween: -60,
+                centeredSlides: true,
+            }
         },
         className: 'pb-12',
     };
@@ -93,15 +96,15 @@ export default function ServicesCarousel() {
                         {[...services, ...services].map((service, index) => (
                             <SwiperSlide key={index}>
                                 <div
-                                    className={`bg-gray-900 rounded-3xl shadow-lg p-6 flex flex-col items-center text-center 
+                                    className={`bg-gray-900 border rounded-3xl shadow-lg p-6 flex flex-col items-center text-center 
                                     transition-all duration-300 ease-in-out
                                     ${activeSlide === index 
                                         ? 'opacity-100 scale-100 z-20' 
                                         : (index < activeSlide 
-                                            ? 'opacity-30 scale-75 -translate-x-4 z-10' 
-                                            : 'opacity-30 scale-75 translate-x-4 z-10')
+                                            ? 'opacity-20 scale-75 -translate-x-4 z-10' 
+                                            : 'opacity-20 scale-75 translate-x-4 z-10')
                                     }
-                                    w-[260px] h-[420px] mx-auto`}
+                                    w-[300px] h-[420px] mx-auto overflow-hidden`} // Added overflow-hidden here
                                 >
                                     <h3 className="text-xl font-semibold text-white mb-4 h-8">{service.name}</h3>
 
@@ -119,7 +122,7 @@ export default function ServicesCarousel() {
                                     </p>
 
                                     <div className="mt-auto">
-                                        <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full shadow 
+                                        <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white  rounded-2xl shadow 
                                             hover:from-purple-700 hover:to-indigo-700 
                                             hover:opacity-90 
                                             transition-all duration-300 ease-in-out">

@@ -275,7 +275,7 @@ const ModelViewer: React.FC = () => {
 
   return (
     
-    <section id="what-we-do"  className="bg-black text-white py-[72px] sm:py-24 ">
+    <section id="what-we-do"  className="bg-black text-white py-[72px] sm:py-8 ">
       <div className="w-full bg-black/90 py-10 sm:py-4 px-4">
         <div className="container">
           {/* Section Heading */}
@@ -289,27 +289,28 @@ const ModelViewer: React.FC = () => {
           </div>
           
           {/* Main Content Container */}
-          <div className=" flex flex-col sm:mt-12 mt-4 lg:flex-row gap-4 sm:gap-4">
+          <div className=" flex flex-col sm:mt-8 mt-4 lg:flex-row gap-4 sm:gap-4">
             {/* Slider/Content Container - Left on large screens, top on small screens */}
             <div className="w-full lg:w-1/2 flex justify-center items-center">
               {/* Left: Slider Section */}
-              <div className="w-full h-[550px]  rounded-lg text-white flex flex-col">
+              <div className="w-[380px] lg:w-[850px] sm:w-[750px] h-[550px]  rounded-lg text-white flex flex-col">
                 <ServicesCarousel />
               </div>
             </div>
             
             {/* Globe Container - Right on large screens, bottom on small screens */}
-            <div className="w-full lg:w-1/2 
+            <div className="w-full lg:w-1/2  lg:px-16 lg:pr-6
               flex justify-center items-center"
             >
               <div className="w-full relative
                 h-[380px]  
                 md:h-[500px]  
-                lg:h-[550px]"
+                lg:h-[550px]
+                "
               >
                 <div
                   ref={mountRef}
-                  className="absolute inset-0 bg-black"
+                  className="absolute inset-0 bg-black lg:px-8"
                 />
                 {isHovering && (
                   <div 
