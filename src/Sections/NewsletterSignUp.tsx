@@ -4,7 +4,7 @@ import React, { FC } from "react";
 
 const NewsletterSignup: FC = () => {
     return (
-        <section className="bg-[#18181c] text-white py-12 px-4 sm:px-6 lg:px-8">
+        <section className="bg-gradient-to-b from-[#1a1a2e] to-black text-white py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <h2 className="text-4xl md:text-6xl font-bold text-center lg:text-left mb-8 tracking-tight">
                     Newsletter Signup

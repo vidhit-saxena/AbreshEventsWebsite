@@ -79,8 +79,8 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section className="relative py-32 bg-gradient-to-b from-black via-[#121212] to-[#1a1a2e] text-white">
-      <h2 className="text-4xl md:text-6xl font-bold text-white text-center mb-10">
+    <section className="relative py-24 bg-gradient-to-b from-black to-[#121212]  text-white">
+      <h2 className="text-4xl md:text-6xl font-bold text-white text-center lg:px-8 mb-10">
         Frequently Asked Questions
       </h2>
 
