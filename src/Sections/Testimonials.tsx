@@ -90,7 +90,7 @@ export const Testimonials = () => {
     };
 
     return (
-        <section className="py-16 lg:py-32 md:py-20 bg-black">
+        <section className="py-16 md:py-20 bg-black">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-10">
                     <h2 className="text-4xl md:text-6xl lg:text-6xl font-bold text-transparent mb-4 text-white">
@@ -120,14 +120,14 @@ export const Testimonials = () => {
                             repeat: Infinity,
                             repeatType: "loop"
                         }}
-                        className="flex gap-6 w-[200%]"
+                        className="flex gap-6 w-[200%] py-4"
                     >
                         {infiniteTestimonials.map((testimonial, index) => (
                             <div 
                                 key={`${testimonial.name}-${index}`}
                                 className={`${getCardWidth()} flex-shrink-0 bg-gray-900/60 border border-white/10 rounded-2xl p-5 md:p-6 
-                                    transition-all duration-300 
-                                    hover:scale-[1.02] 
+                                    transition-all duration-500 
+                                    hover:scale-[1.08] 
                                     bg-gradient-to-br from-transparent to-purple-900/10`}
                             >
                                 <div className="mb-4 text-white text-base md:text-xl">
