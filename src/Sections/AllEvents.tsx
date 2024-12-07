@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -64,8 +65,20 @@ const eventData: EventDetails[] = [
 ];
 
 export default function MusicEventsSlider() {
+    // State to track expanded/hovered slides on mobile/desktop
+    const [expandedSlides, setExpandedSlides] = useState<number[]>([]);
+
+    // Toggle slide expansion on mobile
+    const toggleSlideExpansion = (index: number) => {
+        setExpandedSlides(prev => 
+            prev.includes(index) 
+                ? prev.filter(i => i !== index)
+                : [...prev, index]
+        );
+    };
+
     return (
-        <section className="py-16 lg:py-32 bg-black px-4 sm:px-6 md:px-8 lg:px-0 min-h-[600px]">
+        <section className="py-16 bg-black px-4 sm:px-6 md:px-8 lg:px-0 min-h-[600px]">
             <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
                 {/* Section Heading */}
                 <h2 className="text-center font-bold text-4xl sm:text-5xl md:text-6xl lg:text-6xl tracking-tighter text-white mb-6">
@@ -103,7 +116,16 @@ export default function MusicEventsSlider() {
                     >
                         {eventData.map((event, index) => (
                             <SwiperSlide key={index}>
-                                <div className="group flex flex-col lg:flex-row bg-gradient-to-br from-gray-900 to-black rounded-2xl border-4 border-white/60 shadow-2xl overflow-hidden min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[550px] transform transition-all duration-300 hover:scale-[1.02]">
+                                <div 
+                                    className={`group flex flex-col lg:flex-row bg-gradient-to-br from-gray-900 to-black rounded-2xl border-4 border-white/60 shadow-2xl overflow-hidden 
+                                        min-h-[400px] sm:min-h-[500px] 
+                                        lg:min-h-[550px] 
+                                        transition-all duration-300
+                                        ${expandedSlides.includes(index) ? 'lg:min-h-[550px] ' : 'lg:min-h-[550px]'}
+                                        cursor-pointer
+                                    `}
+                                    onClick={() => toggleSlideExpansion(index) }
+                                >
                                     {/* Image Section */}
                                     <div className="w-full lg:w-1/2 relative">
                                         <Image
@@ -116,17 +138,95 @@ export default function MusicEventsSlider() {
                                             {event.year}
                                         </div>
                                     </div>
+                                    
                                     {/* Text Section */}
-                                    <div className="w-full lg:w-1/2 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center space-y-4 text-left">
-                                        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
-                                            {event.title}
-                                        </h3>
-                                        <p className="text-base sm:text-lg md:text-xl text-white/80 mb-4 sm:mb-6">
-                                            {event.description}
-                                        </p>
+                                    <div className="w-full lg:w-1/2 p-6 sm:p-8 md:p-10 lg:p-12 
+                                        flex flex-col 
+                                        justify-center 
+                                        
+                                         
+                                        relative
+                                    ">
+                                        <div className="
+                                            px-2
+                                            lg:px-12
+                                            lg:absolute 
+                                            lg:top-1/2 
+                                            lg:left-1/2 
+                                            lg:-translate-x-1/2 
+                                            lg:-translate-y-1/2 
+                                            lg:group-hover:-translate-y-[calc(50%+6rem)]
+                                            transition-transform 
+                                            duration-300 
+                                            w-full
+                                        ">
+                                            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
+                                                {event.title}
+                                            </h3>
+                                            <p className="text-base sm:text-lg md:text-xl text-white/80 mb-4 sm:mb-6">
+                                                {event.description}
+                                            </p>
+                                        </div>
 
-                                        {/* Event Details */}
-                                        <div className="space-y-3 text-base sm:text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        {/* Event Details - Desktop */}
+                                        <div className={`
+                                            hidden 
+                                            lg:block 
+                                            space-y-2 
+                                            text-base 
+                                            sm:text-lg 
+                                            absolute 
+                                            bottom-0 
+                                            left-0 
+                                            right-0 
+                                            px-12 
+                                            pb-20 
+                                            opacity-0 
+                                            lg:group-hover:opacity-100 
+                                            transition-opacity 
+                                            duration-300
+                                        `}>
+                                            {/* Location */}
+                                            <div className="flex items-center space-x-3">
+                                                <MapPin className="text-white/70 w-5 h-5" />
+                                                <span className="text-white/90">{event.location}</span>
+                                            </div>
+
+                                            {/* Guests */}
+                                            <div className="flex items-center space-x-3">
+                                                <Mic className="text-white/70 w-5 h-5" />
+                                                <div className="text-white/90">
+                                                    Special Guests: {event.guests.join(', ')}
+                                                </div>
+                                            </div>
+
+                                            {/* Audience */}
+                                            <div className="flex items-center space-x-3">
+                                                <Users className="text-white/70 w-5 h-5" />
+                                                <span className="text-white/90">
+                                                    {event.audienceCount.toLocaleString()} Attendees
+                                                </span>
+                                            </div>
+
+                                            {/* Sponsors */}
+                                            <div className="flex items-center space-x-3">
+                                                <Building2 className="text-white/70 w-5 h-5" />
+                                                <div className="text-white/90">
+                                                    Sponsors: {event.sponsors.join(' • ')}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Event Details - Mobile */}
+                                        <div className={`
+                                            lg:hidden 
+                                            space-y-3 
+                                            text-base 
+                                            sm:text-lg 
+                                            w-full 
+                                            pt-4 
+                                            ${expandedSlides.includes(index) ? 'block' : 'hidden'}
+                                        `}>
                                             {/* Location */}
                                             <div className="flex items-center space-x-3">
                                                 <MapPin className="text-white/70 w-5 h-5" />
@@ -164,17 +264,17 @@ export default function MusicEventsSlider() {
                     </Swiper>
 
                     {/* Custom Navigation */}
-                    <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center space-x-4 mt-4 z-10">
+                    <div className="mt-6 flex justify-center items-center space-x-4 z-10">
                         {/* Previous Button */}
-                        <button className="swiper-custom-prev text-white/70 hover:text-white transition-colors duration-300 p-2">
+                        <button className="swiper-custom-prev text-white/70 bg-white/10 rounded-full hover:text-white transition-colors duration-300 p-2">
                             <ChevronLeft className="w-8 h-8" />
                         </button>
 
                         {/* Pagination Dots */}
-                        <div className="swiper-custom-pagination flex items-center"></div>
+                        <div className="swiper-custom-pagination flex items-center "></div>
 
                         {/* Next Button */}
-                        <button className="swiper-custom-next text-white/70 hover:text-white transition-colors duration-300 p-2">
+                        <button className="swiper-custom-next text-white/70 bg-white/10 rounded-full hover:text-white transition-colors duration-300 p-2">
                             <ChevronRight className="w-8 h-8" />
                         </button>
                     </div>
