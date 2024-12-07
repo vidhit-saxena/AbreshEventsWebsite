@@ -95,10 +95,8 @@ export const TopEvents: React.FC = () => {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainer
 
       if (scrollLeft <= 0) {
-        // Scroll to the end of the second set
         scrollContainer.scrollLeft = scrollWidth / 2
       } else if (scrollLeft + clientWidth >= scrollWidth) {
-        // Scroll to the start of the first set
         scrollContainer.scrollLeft = scrollWidth / 2 - clientWidth
       }
     }
@@ -134,7 +132,7 @@ export const TopEvents: React.FC = () => {
 
   return (
     <section className='relative bg-black w-full overflow-hidden'>
-      <div className='container mx-auto px-4 py-16'>
+      <div className='container mx-auto px-4 py-16 '>
         <div className='text-center mb-8 sm:mb-10'>
           <h2 className='text-4xl sm:text-4xl md:text-6xl font-bold text-white mb-4'>
             Top Events
@@ -145,7 +143,7 @@ export const TopEvents: React.FC = () => {
         </div>
 
         <div
-          className='relative w-full overflow-x-auto scroll-snap-x mandatory scrollbar-hide py-2'
+          className='relative w-full overflow-x-auto no-scrollbar py-4'
           ref={scrollRef}
           onScroll={handleManualScroll}
           onMouseEnter={() => setIsHovering(true)}
@@ -203,6 +201,16 @@ export const TopEvents: React.FC = () => {
           </motion.div>
         </div>
       </div>
+
+      <style jsx>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, and Opera */
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
+        }
+      `}</style>
     </section>
   )
 }
