@@ -1,0 +1,17 @@
+.auto-scroll {
+    animation: scroll-left 30s linear infinite;
+  }
+  
+  .auto-scroll.paused {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  

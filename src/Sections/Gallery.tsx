@@ -72,7 +72,7 @@ export const Gallery: React.FC = () => {
             onSwiper={setSwiper}
             onSlideChange={handleSlideChange}
             loop={true}
-            className='h-[250px] sm:h-[350px] md:h-[500px] w-full rounded-lg relative group'
+            className='h-[250px] sm:h-[350px] lg:h-[500px]  md:w-[90%] lg:w-[100%] w-full rounded-lg relative group'
           >
             {/* Custom Navigation Buttons */}
             <div className='custom-prev-button absolute left-4 top-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
@@ -127,7 +127,7 @@ export const Gallery: React.FC = () => {
                       />
                     </div>
                     {activeIndex === index && (
-                      <div className='absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-700 opacity-30 rounded-lg'></div>
+                      <div className='absolute inset-0 rounded-lg'></div>
                     )}
                   </button>
                 </li>

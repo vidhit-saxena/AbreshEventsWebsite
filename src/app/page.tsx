@@ -10,7 +10,7 @@ import AllEvents from "@/Sections/AllEvents";
 import  Services   from "@/Sections/Services";
 import { Testimonials } from '@/Sections/Testimonials';
 import  FAQs  from '@/Sections/FAQs';
-import { Gallery } from '@/Sections/Gallery';
+import { Gallery} from '@/Sections/Gallery';
 import {TopEvents} from '@/Sections/TopEvents';
 import Footer from '@/Sections/Footer';
 import NewsletterSignup from '@/Sections/NewsletterSignUp';
