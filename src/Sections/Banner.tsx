@@ -1,7 +1,7 @@
 export const Banner = () => {
     return (
 
-    <div className="py-3 text-center  bg-custom-gradient-light">
+    <div className="py-3 text-center bg-white bg-custom-gradient-light">
         <div className="container">
             <p className="font-medium">
                 <span className="hidden sm:inline ">
