@@ -42,7 +42,7 @@ export default function Introduction() {
                             ))}
                         </span>
                         <span className="font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text [-webkit-background-clip:text] block">
-                            That's why we built ABResh Events
+                            That is why we built ABResh Events
                         </span>
                     </div>
                 </div>

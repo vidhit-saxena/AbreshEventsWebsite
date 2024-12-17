@@ -97,7 +97,7 @@ export const Testimonials = () => {
                         What They Say
                     </h2>
                     <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-400">
-                        Discover how our innovative events have transformed our clients' business strategies.
+                        Discover how our innovative events have transformed our clients business strategies.
                     </p>
                 </div>
 

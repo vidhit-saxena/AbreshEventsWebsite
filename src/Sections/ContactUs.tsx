@@ -12,7 +12,7 @@ const ContactUs: FC = () => {
                     <div className="max-w-md">
                         <h2 className="text-4xl md:text-6xl font-bold mb-4">Contact Us</h2>
                         <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&aposs standard dummy text.
                         </p>
                     </div>
                     {/* Social Media Icons */}
