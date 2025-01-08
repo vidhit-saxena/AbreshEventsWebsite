@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/Sections/Scene.tsx"  ],
+, "src/app/HomePage/Scene.tsx"  ],
   "exclude": [
     "node_modules"
   ]

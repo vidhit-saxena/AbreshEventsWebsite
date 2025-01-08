@@ -1,21 +1,21 @@
 'use client';
 
-import ModelViewer from '@/Sections/ModelViewer';
-import { Banner } from "@/Sections/Banner";
-import { Navbar } from "@/Sections/Navbar";
-import {Hero} from "@/Sections/Hero"
-import LogoTicker from "@/Sections/LogoTicker";
-import Introduction  from "@/Sections/Introduction";
-import AllEvents from "@/Sections/AllEvents";
-import  Services   from "@/Sections/Services";
-import { Testimonials } from '@/Sections/Testimonials';
-import  FAQs  from '@/Sections/FAQs';
-import { Gallery} from '@/Sections/Gallery';
-import {TopEvents} from '@/Sections/TopEvents';
-import Footer from '@/Sections/Footer';
-import NewsletterSignup from '@/Sections/NewsletterSignUp';
-import ContactUs from '@/Sections/ContactUs';
-import  UpcomingEvents  from '@/Sections/UpcomingEvents';
+import ModelViewer from '@/app/HomePage/ModelViewer';
+import { Banner } from "@/app/HomePage/Banner";
+import { Navbar } from "@/app/HomePage/Navbar";
+import {Hero} from "@/app/HomePage/Hero"
+import LogoTicker from "@/app/HomePage/LogoTicker";
+import Introduction  from "@/app/HomePage/Introduction";
+import AllEvents from "@/app/HomePage/AllEvents";
+import  Services   from "@/app/HomePage/Services";
+import { Testimonials } from '@/app/HomePage/Testimonials';
+import  FAQs  from '@/app/HomePage/FAQs';
+import { Gallery} from '@/app/HomePage/Gallery';
+import {TopEvents} from '@/app/HomePage/TopEvents';
+import Footer from '@/app/HomePage/Footer';
+import NewsletterSignup from '@/app/HomePage/NewsletterSignUp';
+import ContactUs from '@/app/HomePage/ContactUs';
+import  UpcomingEvents  from '@/app/HomePage/UpcomingEvents';
 
 
 
