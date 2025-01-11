@@ -6,7 +6,7 @@ import Image, { StaticImageData } from "next/image";
 const HeroSection = () => {
     return (
         <section className="bg-gradient-to-b from-black via-[#0A051F] to-[#0A051F] text-white min-h-svh">
-            <div className="container mx-auto px-6 py-16">
+            <div className="container max-w-7xl mx-auto px-6 py-16">
                 {/* Content Section */}
                 <div className="max-w-xl">
                     <p className="text-gray-300 mb-16 text-lg">Production</p>

@@ -6,6 +6,7 @@ import Footer from '../HomePage/Footer'
 import AskSection from '../FAQPage/AskSection'
 import VideoProductionSection from './VideoProductionSection'
 import OurProjectSection from './OurProjectSection'
+import { Gallery } from './Gallery'
 
 const DescriptionPage = () => {
     return (
@@ -15,6 +16,7 @@ const DescriptionPage = () => {
         <HeroSection/>
         <OurProjectSection/>
         <VideoProductionSection/>
+        <Gallery/>
         <AskSection/>
         <Footer/>
         </>
