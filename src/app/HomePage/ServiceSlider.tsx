@@ -93,7 +93,7 @@ export default function ServicesCarousel() {
                         onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
                         className="relative z-10"
                     >
-                        {[...services, ...services].map((service, index) => (
+                        {[...services, ...services, ...services].map((service, index) => (
                             <SwiperSlide key={index}>
                                 <div
                                     className={`bg-gray-900 border rounded-3xl shadow-lg p-6 flex flex-col items-center text-center 
@@ -122,8 +122,8 @@ export default function ServicesCarousel() {
                                     </p>
 
                                     <div className="mt-auto">
-                                        <button className="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white  rounded-2xl shadow 
-                                            hover:from-purple-700 hover:to-indigo-700 
+                                        <button className="px-6 py-2 bg-purple-800 text-white  rounded-2xl shadow 
+                                            hover:from-purple-900 hover:to-indigo-700 
                                             hover:opacity-90 
                                             transition-all duration-300 ease-in-out">
                                             See More

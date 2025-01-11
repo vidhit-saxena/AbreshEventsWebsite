@@ -1,11 +1,11 @@
 "use client";
 
 // introduction.tsx
-import Tag from "@/components/Tags";
+import Tag from "@/Components/Tags";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import  ImageT  from "@/components/ImageT";
+import  ImageT  from "@/Components/ImageT";
 
 
 const text = 'You are racing to create exceptional work, but traditional design tools slow you down with unnecessary complexity and steep learning curves.';

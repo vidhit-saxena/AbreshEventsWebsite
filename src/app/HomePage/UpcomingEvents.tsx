@@ -55,7 +55,7 @@ const data: EventItem[] = [
   },
 ];
 
-const UpcomingEventsSlider: React.FC = () => {
+const UpcomingEvents: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -243,4 +243,4 @@ const UpcomingEventsSlider: React.FC = () => {
   );
 };
 
-export default UpcomingEventsSlider;
+export default UpcomingEvents;
