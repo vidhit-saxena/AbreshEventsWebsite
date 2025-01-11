@@ -32,7 +32,7 @@ const topEvents: TopEvent[] = [
     name: "Tech Innovation Summit",
     date: "15 Dec 2024",
     type: "International",
-    link: "/events/tech-innovation-summit"
+    link: "/EventsPage"
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const topEvents: TopEvent[] = [
     name: "Startup Expo",
     date: "20 Jan 2025",
     type: "National",
-    link: "/events/startup-expo"
+    link: "/EventsPage"
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const topEvents: TopEvent[] = [
     name: "Leadership Conference",
     date: "10 Feb 2025",
     type: "International",
-    link: "/events/leadership-conference"
+    link: "/EventsPage"
   },
   {
     id: 4,
@@ -59,7 +59,7 @@ const topEvents: TopEvent[] = [
     name: "Digital Transformation Forum",
     date: "05 Mar 2025",
     type: "National",
-    link: "/events/digital-transformation-forum"
+    link: "/EventsPage"
   },
   {
     id: 5,
@@ -68,7 +68,7 @@ const topEvents: TopEvent[] = [
     name: "Innovation Workshop",
     date: "15 Apr 2025",
     type: "International",
-    link: "/events/innovation-workshop"
+    link: "/EventsPage"
   },
   {
     id: 6,
@@ -77,7 +77,7 @@ const topEvents: TopEvent[] = [
     name: "Networking Gala",
     date: "20 May 2025",
     type: "National",
-    link: "/events/networking-gala"
+    link: "/EventsPage"
   }
 ]
 

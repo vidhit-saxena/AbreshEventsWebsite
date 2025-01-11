@@ -6,6 +6,8 @@ import Footer from '../HomePage/Footer'
 import HeroSection from './HeroSection'
 import ContactSection from './ContactSection'
 import SocialConnectSection from './SocialConnectSection'
+import HelpSection from './HelpSection'
+import SocialMediaPresence from './SocialMediaPresence'
 
 const ContactUsPage = () => {
   return (
@@ -13,8 +15,10 @@ const ContactUsPage = () => {
     <Banner/>
     <Navbar/>
     <HeroSection/>
-    <ContactSection/>
-    <SocialConnectSection/>
+    <HelpSection/>
+    <SocialMediaPresence/>
+    {/* <ContactSection/> */}
+    {/* <SocialConnectSection/> */}
     <ContactUs/>
     <Footer/>
     </>

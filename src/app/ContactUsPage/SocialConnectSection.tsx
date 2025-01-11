@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Youtube, LucideIcon } from "lucide-react";
 
+
 // Define interfaces for our props and data structure
 interface SocialCardProps {
     icon: LucideIcon;

@@ -162,6 +162,7 @@
 import React, { useState } from 'react';
 import { FaYoutube, FaLinkedin, FaTwitter, FaFacebook, FaInstagram } from 'react-icons/fa';
 import axios from 'axios';
+import backgroundImage from "@/assets/images/background.png"; // Import your background image
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -194,7 +195,14 @@ const ContactUs = () => {
     };
 
     return (
-        <section id="contact" className="bg-gradient-to-b from-[#121212] to-[#1a1a2e] text-white py-12 px-4 sm:px-6 lg:px-8 animate-gradient-move">
+        <section  style={{
+            backgroundImage: `url(${backgroundImage.src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+        }}
+        id='contact'
+        className="text-white py-12 px-4 sm:px-6 lg:px-8 animate-gradient-move">
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Left Section - Contact Info */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -345,7 +353,7 @@ const ContactUs = () => {
                         <div className="mt-6">
                             <button
                                 type="submit"
-                                className="w-full py-2 px-4 rounded-md bg-purple-600 hover:bg-purple-700 text-white text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                className="w-2/5 py-2 px-4 rounded-3xl bg-purple-600 hover:bg-purple-700 text-white text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                             >
                                 Submit
                             </button>
@@ -361,3 +369,6 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
+
+//  id="contact" className="bg-gradient-to-b from-[#121212] to-[#1a1a2e] text-white py-12 px-4 sm:px-6 lg:px-8 animate-gradient-move

@@ -9,6 +9,9 @@ import FAQSection from '../TechnologyPage/FAQ'
 import ContactUs from '../HomePage/ContactUs'
 import Footer from '../HomePage/Footer'
 import WhatWeBelieveIn from './WhatWeBelieveIn'
+import OurValues from './OurValues'
+import BrandLogos from '../TechnologyPage/BrandLogos'
+import TimelineSection from './TimelineSection'
 
 const AboutUsPage = () => {
   return (
@@ -16,9 +19,12 @@ const AboutUsPage = () => {
         <Banner/>
         <Navbar/>
         <HeroSection/>
-        <StatsSection/>
+        <BrandLogos/>
+        <TimelineSection/>
+        {/* <StatsSection/> */}
         <WhatWeBelieveIn/>
-        <HistorySection/>
+        <OurValues/>
+        {/* <HistorySection/> */}
         <OurTeam/>
         <FAQSection/>
         <ContactUs/>
