@@ -91,12 +91,12 @@ export const Testimonials = () => {
 
     return (
         <section className="py-16 md:py-20 bg-black">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-10">
+            <div className="container mx-auto xl:px-20">
+                <div className="text-center mb-4 md:mb-8">
                     <h2 className="text-4xl md:text-6xl lg:text-6xl font-bold text-transparent mb-4 text-white">
                         What They Say
                     </h2>
-                    <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-gray-400">
+                    <p className="max-w-xl mx-auto text-base sm:text-xl md:text-xl text-gray-400 px-6">
                         Discover how our innovative events have transformed our clients business strategies.
                     </p>
                 </div>
@@ -128,9 +128,9 @@ export const Testimonials = () => {
                                 className={`${getCardWidth()} flex-shrink-0 bg-gray-900/60 border border-white/10 rounded-2xl p-5 md:p-6 
                                     transition-all duration-500 
                                     hover:scale-[1.08] 
-                                    bg-gradient-to-br from-transparent to-purple-900/10`}
+                                    bg-gradient-to-br from-transparent to-purple-900/10 `}
                             >
-                                <div className="mb-4 text-white text-base md:text-xl">
+                                <div className="mb-4 text-white/90 text-sm md:text-lg">
                                     &quot;{testimonial.text}&quot;
                                 </div>
                                 <div className="flex items-center mt-4 md:mt-6">

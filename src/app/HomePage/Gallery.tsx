@@ -1,11 +1,12 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import 'swiper/css/autoplay'
 // Import event images
 import Image1 from "@/assets/images/Image1.jpg"
 import Image2 from "@/assets/images/Image2.jpg"
@@ -33,31 +34,46 @@ const eventImages: EventImage[] = [
 export const Gallery: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [swiper, setSwiper] = useState<any>(null)
+  const [isAutoplaying, setIsAutoplaying] = useState(true)
 
-  const handleSlideChange = (swiper: any) => {
+  // Memoize the slide change handler
+  const handleSlideChange = useCallback((swiper: any) => {
     setActiveIndex(swiper.activeIndex)
-  }
+  }, [])
 
-  const handleThumbnailClick = (index: number) => {
+  // Memoize the thumbnail click handler
+  const handleThumbnailClick = useCallback((index: number) => {
     if (swiper) {
       swiper.slideTo(index)
     }
-  }
+  }, [swiper])
+
+  // Toggle autoplay
+  const toggleAutoplay = useCallback(() => {
+    if (swiper) {
+      if (isAutoplaying) {
+        swiper.autoplay.stop()
+      } else {
+        swiper.autoplay.start()
+      }
+      setIsAutoplaying(!isAutoplaying)
+    }
+  }, [swiper, isAutoplaying])
 
   return (
     <section id="our-gallery" className='relative bg-black w-full'>
-      <div className='container mx-auto px-4 py-12'>
+      <div className='container mx-auto px-6 md:px-4 py-8 md:py-10'>
         <div className='text-center mb-8 sm:mb-10'>
-          <h2 className='text-4xl sm:text-4xl md:text-6xl font-bold text-white mb-4'>
+          <h2 className='text-4xl sm:text-4xl md:text-6xl font-bold text-white mb-4 md:mb-4'>
             Our Gallery
           </h2>
-          <p className='max-w-xl mx-auto text-gray-400 text-sm sm:text-base md:text-lg'>
-            Explore the memorable moments from our events
+          <p className='max-w-xl mx-auto text-gray-400 text-sm sm:text-base md:text-lg px-4'>
+            Explore the memorable moments from our events and experience the vibe.
           </p>
         </div>
-        <div className='max-w-6xl mx-auto'>
+        <div className='relative'>
           <Swiper
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={10}
             slidesPerView={1}
             navigation={{
@@ -69,11 +85,33 @@ export const Gallery: React.FC = () => {
               bulletClass: 'custom-pagination-bullet',
               bulletActiveClass: 'custom-pagination-bullet-active'
             }}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true
+            }}
+            speed={800}
             onSwiper={setSwiper}
             onSlideChange={handleSlideChange}
             loop={true}
-            className='h-[250px] sm:h-[350px] lg:h-[500px]  md:w-[90%] lg:w-[100%] w-full rounded-lg relative group'
+            className='h-[250px] sm:h-[350px] lg:h-[550px]  md:w-[90%] lg:w-[85%] w-full rounded-lg relative group'
           >
+            {/* Autoplay Toggle Button */}
+            <button 
+              onClick={toggleAutoplay}
+              className='absolute top-4 right-4 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full p-2 text-white shadow-lg transition-all duration-300'
+            >
+              {isAutoplaying ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                </svg>
+              )}
+            </button>
+
             {/* Custom Navigation Buttons */}
             <div className='custom-prev-button absolute left-4 top-1/2 -translate-y-1/2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
               <div className='bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full p-2 text-white shadow-lg'>
@@ -92,19 +130,20 @@ export const Gallery: React.FC = () => {
 
             {eventImages.map((image, index) => (
               <SwiperSlide key={index} className='relative'>
-                <div className='h-full w-full flex items-center justify-center'>
+                <div className='h-full w-full flex items-center justify-center '>
                   <Image
                     src={image.src}
                     alt={image.alt}
                     className='block h-full w-full object-cover rounded-lg'
                     placeholder='blur'
+                    priority={index < 2} // Prioritize loading for first two images
                   />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
 
-          {/* Thumbnails at the bottom */}
+          {/* Thumbnails */}
           <div className='mt-4 sm:mt-6'>
             <ul className='flex gap-2 sm:gap-4 overflow-x-auto py-4 justify-start sm:justify-center scrollbar-hide'>
               {eventImages.map((image, index) => (
@@ -124,11 +163,9 @@ export const Gallery: React.FC = () => {
                         alt={image.alt}
                         className='block h-full w-full object-cover'
                         placeholder='blur'
+                        loading="lazy" // Lazy load thumbnails
                       />
                     </div>
-                    {activeIndex === index && (
-                      <div className='absolute inset-0 rounded-lg'></div>
-                    )}
                   </button>
                 </li>
               ))}
@@ -137,7 +174,6 @@ export const Gallery: React.FC = () => {
         </div>
       </div>
 
-      {/* Custom global styles for pagination and scrollbar */}
       <style jsx global>{`
         .custom-pagination-bullet {
           width: 10px;
@@ -153,15 +189,13 @@ export const Gallery: React.FC = () => {
           border-radius: 10px;
         }
         
-        /* Hide scrollbar for Chrome, Safari and Opera */
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
 
-        /* Hide scrollbar for IE, Edge and Firefox */
         .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </section>

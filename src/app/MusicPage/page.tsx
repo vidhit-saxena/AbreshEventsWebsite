@@ -6,13 +6,14 @@ import { MusicScroller } from './Scroller'
 import WhyMusicServices from './WhyMusicServices'
 import WhyMusicServicesSecond from './WhyMusicServicesSecond'
 import RestartSection from './RestartSection'
-import FAQSection from '../TechnologyPage/FAQ'
 import ContactUs from '../HomePage/ContactUs'
 import Footer from '../HomePage/Footer'
 import VideoCarousel from './VideoCarousel'
 import PortfolioSection from './PortfolioSection'
 import PreviousConcert from './PreviousConcert'
 import OurServices from './OurServices'
+import ScrollToTop from '@/Components/ScrollToTop'
+import FAQSection from '../HomePage/FAQs'
 
 const MusicPage = () => {
   return (
@@ -31,6 +32,7 @@ const MusicPage = () => {
         <FAQSection/>
         <ContactUs/>
         <Footer/>
+        <ScrollToTop/>
     </>
   )
 }

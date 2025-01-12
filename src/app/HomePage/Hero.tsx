@@ -52,12 +52,14 @@ export const Hero = () => {
                 {/* Header Section */}
                 <div className="flex items-center justify-center">
                     <a href="#" className="inline-flex gap-3 border py-1 px-2 rounded-lg border-white/30">
-                        <span className="animate-gradient-move bg-[length:400%_100%] bg-custom-gradient font-semibold text-transparent bg-clip-text [-webkit-background-clip:text]">
+                        <span className="text-sm md:text-base mt-[2.5px] md:mt-0 animate-gradient-move bg-[length:400%_100%] bg-custom-gradient font-semibold text-transparent bg-clip-text [-webkit-background-clip:text]">
                             Welcome to ABResh Events
                         </span>
-                        <span className="inline-flex items-center gap-1">
+                        <span className="text-sm md:text-base mt-[0.5px] md:mt-0 inline-flex items-center gap-1">
                             <span className=" ">Read more</span>
-                            <ArrowWIcon />
+                            <ArrowWIcon 
+                                
+                            />
                         </span>
                     </a>
                 </div>
@@ -143,11 +145,11 @@ export const Hero = () => {
 
                 {/* Footer Section */}
                 <div className="flex justify-center">
-                    <p className="text-center text-xl mt-8 max-w-md">
-                        ABResh Technologies, focusing on how their digital solutions (web, app, software, digital marketing) help businesses grow and innovate.
+                    <p className="text-center text-base sm:text-xl mt-9 sm:mt-8 max-w-lg">
+                        ABResh Technologies, focusing on how their digital solutions (Web, App, Software, Digital Marketing) help businesses grow and innovate.
                     </p>
                 </div>
-                <div className="flex justify-center mt-8">
+                <div className="flex justify-center mt-9 sm:mt-8">
                     <button 
                         onClick={handleExploreClick}
                         className="relative px-5 py-3 font-medium text-black bg-white/80 rounded-lg shadow-m hover:scale-110 transition duration-300 ease-in-out"

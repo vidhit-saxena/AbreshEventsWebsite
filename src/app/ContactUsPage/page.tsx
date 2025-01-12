@@ -6,6 +6,7 @@ import Footer from '../HomePage/Footer'
 import HeroSection from './HeroSection'
 import ContactSection from './ContactSection'
 import SocialConnectSection from './SocialConnectSection'
+import ScrollToTop from '@/Components/ScrollToTop'
 
 const ContactUsPage = () => {
   return (
@@ -17,6 +18,7 @@ const ContactUsPage = () => {
     <SocialConnectSection/>
     <ContactUs/>
     <Footer/>
+    <ScrollToTop/>
     </>
   )
 }

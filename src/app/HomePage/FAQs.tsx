@@ -13,8 +13,8 @@ type FAQItem = {
 
 const FAQData: FAQItem[] = [
   {
-    question: "What is Abresh App Events?",
-    answer: "Abresh App Events is a premier platform for event planning, helping individuals and organizations to streamline their events efficiently.",
+    question: "What is Abresh Events?",
+    answer: "Abresh Events is a premier platform for event planning, helping individuals and organizations to streamline their events efficiently.",
   },
   {
     question: "Who can benefit from your services?",
@@ -80,12 +80,12 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section className="relative py-24 bg-gradient-to-b from-black to-[#121212]  text-white">
+    <section className="relative py-20 md:py-24 bg-gradient-to-b from-black to-[#121212]  text-white">
       <h2 className="text-4xl md:text-6xl font-bold text-white text-center lg:px-8 mb-10">
         Frequently Asked Questions
       </h2>
 
-      <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3 px-3  sm:px-6 lg:px-0">
+      <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3 px-6 md:px-6 lg:px-0">
         {/* Image Box */}
         <div className="flex justify-center items-center bg-gradient-to-b from-purple-900 to-purple-400 rounded-lg overflow-hidden md:w-3/4 lg:w-100% mx-auto">
           <Image

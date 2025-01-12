@@ -27,8 +27,8 @@ export default function Introduction() {
     }, [wordIndex]);
 
     return (
-        <section id="about-us" className="py-16 bg-black px-4 sm:px-6 md:px-8 lg:px-0">
-            <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
+        <section id="about-us" className="py-16 bg-black md:px-8 lg:px-0">
+            <div className="container mx-auto md:px-8 lg:px-16">
                 <div className="sticky top-10 md:top-10 lg:top-16">
                     <div className="flex justify-center">
                         <Tag>Introducing ABResh Events</Tag>

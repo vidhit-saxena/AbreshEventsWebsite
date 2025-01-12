@@ -6,6 +6,7 @@ import Footer from '../HomePage/Footer'
 import AskSection from '../FAQPage/AskSection'
 import VideoProductionSection from './VideoProductionSection'
 import OurProjectSection from './OurProjectSection'
+import ScrollToTop from '@/Components/ScrollToTop'
 
 const DescriptionPage = () => {
     return (
@@ -17,6 +18,7 @@ const DescriptionPage = () => {
         <VideoProductionSection/>
         <AskSection/>
         <Footer/>
+        <ScrollToTop/>
         </>
     )
 }

@@ -17,6 +17,13 @@ import {
     Newspaper,
     Mic2,
     Sparkles,
+    Code,
+    Cloud,
+    Database,
+    Lock,
+    Smartphone,
+    Laptop,
+    Server
 } from "lucide-react";
 
 const tabs = [
@@ -35,8 +42,11 @@ const tabs = [
             { name: "Analytics and Reporting", icon: BarChart },
         ],
         gradient: "from-purple-900 to-indigo-900",
-        borderColor: "border-purple-500",
-        ringColor: "ring-purple-500",
+        activeGradient: "from-purple-800 to-indigo-800",
+        borderColor: "border-purple-500/50",
+        ringColor: "ring-purple-500/50",
+        iconColor: "text-purple-400",
+        
     },
     {
         id: 1,
@@ -53,8 +63,30 @@ const tabs = [
             { name: "Thought Leadership", icon: Globe },
         ],
         gradient: "from-blue-900 to-cyan-900",
-        borderColor: "border-blue-500",
-        ringColor: "ring-blue-500",
+        activeGradient: "from-blue-800 to-cyan-800",
+        borderColor: "border-blue-500/50",
+        ringColor: "ring-blue-500/50",
+        iconColor: "text-blue-400",
+    },
+    {
+        id: 2,
+        icon: "/assets/lottie/tick.lottie",
+        title: "Technology Solutions",
+        description: "Comprehensive IT and software solutions to power your digital transformation.",
+        features: [
+            { name: "Custom Software Development", icon: Code },
+            { name: "Cloud Computing Services", icon: Cloud },
+            { name: "Database Management", icon: Database },
+            { name: "Cybersecurity Solutions", icon: Lock },
+            { name: "Mobile App Development", icon: Smartphone },
+            { name: "Web Development", icon: Laptop },
+            { name: "IT Infrastructure", icon: Server },
+        ],
+        gradient: "from-gray-900 to-slate-800",
+        activeGradient: "from-gray-800 to-slate-700",
+        borderColor: "border-gray-500/50",
+        ringColor: "ring-gray-500/50",
+        iconColor: "text-gray-400",
     },
 ];
 
@@ -62,11 +94,11 @@ export const Services = () => {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <section id="services" className="bg-black relative overflow-hidden py-12  px-4 ">
+        <section id="services" className="bg-black relative overflow-hidden py-10 px-4">
             {/* Subtle Glow Effect */}
-            <div className="absolute inset-0  bg-gradient-to-br from-purple-900/20 to-blue-900/20 opacity-50 blur-3xl"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20 opacity-50 blur-3xl"></div>
 
-            <div className="container mx-auto max-w-6xl relative z-10 ">
+            <div className="container mx-auto max-w-6xl relative z-10">
                 {/* Header Section */}
                 <motion.div
                     initial={{ opacity: 0, y: -50 }}
@@ -97,15 +129,17 @@ export const Services = () => {
                                 }}
                                 transition={{ duration: 0.3 }}
                                 onClick={() => setActiveTab(index)}
-                                className={`cursor-pointer rounded-xl border-2 ${
+                                className={`cursor-pointer rounded-xl border ${
                                     activeTab === index
-                                        ? `${tab.borderColor} ring-4 ${tab.ringColor}/50`
-                                        : "border-white/20 hover:border-white/40"
-                                } bg-gradient-to-br ${tab.gradient} p-4 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl`}
+                                        ? `${tab.borderColor} ring-2 ${tab.ringColor} shadow-lg`
+                                        : "border-white/10 hover:border-white/20"
+                                } bg-gradient-to-br ${
+                                    activeTab === index ? tab.activeGradient : tab.gradient
+                                } p-4 transform transition-all duration-300 hover:scale-105`}
                             >
                                 {/* Tab Header */}
                                 <div className="flex items-center space-x-4">
-                                    <div className="h-14 w-14 bg-white/20 rounded-xl flex items-center justify-center">
+                                    <div className="h-14 w-14 bg-white/10 rounded-xl flex items-center justify-center">
                                         <DotLottiePlayer
                                             src={tab.icon}
                                             className="h-10 w-10"
@@ -129,11 +163,21 @@ export const Services = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4 }}
-                            className={`space-y-4 p-6 rounded-xl bg-gradient-to-br ${tabs[activeTab].gradient} shadow-lg`}
+                            className={`space-y-4 p-6 rounded-xl bg-gradient-to-br ${tabs[activeTab].gradient} shadow-lg ${tabs[activeTab]}`}
                         >
-                            <h3 className="text-3xl font-bold text-white mb-4">
-                                {tabs[activeTab].title}
-                            </h3>
+                            <div className="flex items-center space-x-4 mb-6">
+    <div className="h-16 w-16 bg-white/10 rounded-xl flex items-center justify-center">
+        <DotLottiePlayer
+            src={tabs[activeTab].icon}
+            className="h-12 w-12"
+            autoplay
+            loop
+        />
+    </div>
+    <h3 className="text-3xl font-bold text-white">
+        {tabs[activeTab].title}
+    </h3>
+</div>
                             <p className="text-white/80 mb-6">{tabs[activeTab].description}</p>
                             {tabs[activeTab].features.map((feature, index) => {
                                 const FeatureIcon = feature.icon;
@@ -142,7 +186,7 @@ export const Services = () => {
                                         key={index}
                                         className="flex items-center space-x-3 text-white/90"
                                     >
-                                        <FeatureIcon size={20} className="text-blue-400" />
+                                        <FeatureIcon size={20} className={tabs[activeTab].iconColor} />
                                         <span>{feature.name}</span>
                                     </div>
                                 );
@@ -151,9 +195,9 @@ export const Services = () => {
                     </div>
                 </div>
 
-                {/* Original Design for Small Screens */}
+                {/* Mobile Design */}
                 <div className="block md:hidden">
-                    <div className="grid grid-cols-1 gap-8">
+                    <div className="grid grid-cols-1 gap-4">
                         {tabs.map((tab, index) => (
                             <motion.div
                                 key={tab.id}
@@ -164,16 +208,18 @@ export const Services = () => {
                                 }}
                                 transition={{ duration: 0.3 }}
                                 onClick={() => setActiveTab(index)}
-                                className={`cursor-pointer rounded-2xl border-2 ${
+                                className={`cursor-pointer rounded-2xl border ${
                                     activeTab === index
-                                        ? `${tab.borderColor} ring-4 ${tab.ringColor}/50`
-                                        : "border-white/20 hover:border-white/40"
-                                } bg-gradient-to-br ${tab.gradient} p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl`}
+                                        ? `${tab.borderColor} ring-2 ${tab.ringColor} shadow-lg`
+                                        : "border-white/10 hover:border-white/20"
+                                } bg-gradient-to-br ${
+                                    activeTab === index ? tab.activeGradient : tab.gradient
+                                } p-6 transform transition-all duration-300 hover:scale-105`}
                             >
                                 {/* Service Header */}
                                 <div className="flex items-center justify-between mb-4">
                                     <div className="flex items-center space-x-4">
-                                        <div className="h-16 w-16 bg-white/20 rounded-xl flex items-center justify-center">
+                                        <div className="h-16 w-16 bg-white/10 rounded-xl flex items-center justify-center">
                                             <DotLottiePlayer
                                                 src={tab.icon}
                                                 className="h-12 w-12"
@@ -209,7 +255,7 @@ export const Services = () => {
                                                     key={featureIndex}
                                                     className="flex items-center space-x-3 text-white/90"
                                                 >
-                                                    <FeatureIcon size={20} className="text-blue-400" />
+                                                    <FeatureIcon size={20} className={tab.iconColor} />
                                                     <span>{feature.name}</span>
                                                 </div>
                                             );

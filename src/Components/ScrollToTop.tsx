@@ -26,15 +26,16 @@ const ScrollToTop: React.FC = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 bg-[#2A64AD] hover:bg-[#F9CD05] 
-                 text-white hover:text-[#13253a] rounded-full p-3 shadow-lg 
-                 transition-all duration-300 ease-in-out transform hover:scale-110
-                 focus:outline-none focus:ring-2 focus:ring-[#2A64AD] focus:ring-opacity-50
-                 z-50
-                 ${showScrollButton ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+      className={`fixed bottom-8 right-4 md:right-8 bg-white hover:bg-[#481E93]
+      text- hover:text-white rounded-full p-3 shadow-lg 
+      transition-all duration-300 ease-in-out transform hover:scale-110
+      focus:outline-none 
+      z-50
+      ${showScrollButton ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
       aria-label="Scroll to top"
     >
-      <ChevronUp size={24} />
+      <ChevronUp  
+      className="h-6 w-6 md:h-9 md:w-9"/>
     </button>
   );
 };

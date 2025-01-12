@@ -1,15 +1,17 @@
 import React from 'react'
 import { Navbar } from '../HomePage/Navbar'
-import FAQSection from './FAQ'
 import ContactUs from '../HomePage/ContactUs'
 import Footer from '../HomePage/Footer'
 import { OngoingProject } from './Ongoingprojects'
-import { Gallery } from './Gallery'
-import WhyChooseUs from './WhyChooseUs'
 import OurServices from './OurServices'
 import { Banner } from '../HomePage/Banner'
 import HeroSection from './HeroSection'
-import BrandLogos from './BrandLogos'
+import ScrollToTop from '@/Components/ScrollToTop'
+import { Gallery } from '../HomePage/Gallery'
+import WhyChooseUs from '../EventsPage/WhyChooseUs'
+import FAQSection from '../HomePage/FAQs'
+import NewsletterSignup from '../HomePage/NewsletterSignUp'
+import LogoTicker from '../EventsPage/Logoticker'
 
 const TechnologyPage = () => {
     return (
@@ -17,14 +19,16 @@ const TechnologyPage = () => {
             <Banner/>
             <Navbar/>
             <HeroSection/>
-            <BrandLogos/>
+            <LogoTicker/>
             <WhyChooseUs/>
             <OurServices/>
             <Gallery/>
             <OngoingProject/>
             <FAQSection/>
             <ContactUs/>
+            <NewsletterSignup/>
             <Footer/>
+            <ScrollToTop/>
         </>
     )
 }

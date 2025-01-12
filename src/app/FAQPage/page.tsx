@@ -5,6 +5,7 @@ import HeroSection from './HeroSection'
 import FAQSection from './FAQ'
 import AskSection from './AskSection'
 import Footer from '../HomePage/Footer'
+import ScrollToTop from '@/Components/ScrollToTop'
 
 const FAQPage = () => {
     return (
@@ -15,6 +16,7 @@ const FAQPage = () => {
         <FAQSection/>
         <AskSection/>
         <Footer/>
+        <ScrollToTop/>
         </>
     )
 }

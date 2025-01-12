@@ -1,10 +1,51 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import ServicesCarousel from './ServiceSlider';
+
+// Pre-initialize reusable geometries and materials
+const markerGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+const markerMaterial = new THREE.MeshBasicMaterial({ color: 0x00D6FF });
+const rippleGeometry = new THREE.SphereGeometry(0.05, 32, 32);
+const hoverGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+const hoverMaterial = new THREE.MeshBasicMaterial({ 
+  transparent: true, 
+  opacity: 0 
+});
+
+// Pre-define shader materials
+const createRippleMaterial = () => new THREE.ShaderMaterial({
+  uniforms: {
+    time: { value: 0 },
+    color: { value: new THREE.Color(0x00D6FF) },
+    opacity: { value: 0.5 }
+  },
+  vertexShader: `
+    uniform float time;
+    varying vec3 vPosition;
+    void main() {
+      vPosition = position;
+      vec3 newPosition = position * (1.0 + sin(time * 3.0) * 0.5);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+    }
+  `,
+  fragmentShader: `
+    uniform float time;
+    uniform vec3 color;
+    uniform float opacity;
+    varying vec3 vPosition;
+    void main() {
+      float pulse = sin(time * 3.0) * 0.5 + 0.5;
+      float alpha = opacity * (1.0 - length(vPosition)) * pulse;
+      gl_FragColor = vec4(color, alpha);
+    }
+  `,
+  transparent: true,
+  depthWrite: false
+});
 
 const ModelViewer: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -16,43 +57,88 @@ const ModelViewer: React.FC = () => {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
+  const animationFrameRef = useRef<number>();
   
-  // State for hover and marker position
   const [isHovering, setIsHovering] = useState(false);
   const [markerScreenPosition, setMarkerScreenPosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    // Early return if window is undefined or mount ref is null
-    if (typeof window === 'undefined' || !mountRef.current) return () => {};
-
-    // Scene setup
+  // Memoize scene setup functions
+  const setupScene = useMemo(() => (mount: HTMLDivElement) => {
     const scene = new THREE.Scene();
-    sceneRef.current = scene;
-    
-    const currentMount = mountRef.current;
     const camera = new THREE.PerspectiveCamera(
       70,
-      currentMount.clientWidth / currentMount.clientHeight,
+      mount.clientWidth / mount.clientHeight,
       0.9,
       1000
     );
-    cameraRef.current = camera;
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    rendererRef.current = renderer;
+    
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true,
+      powerPreference: 'high-performance' // Optimize for performance
+    });
+    
     renderer.setClearColor(0x000000, 0);
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-    currentMount.appendChild(renderer.domElement);
+    renderer.setSize(mount.clientWidth, mount.clientHeight);
+    
+    // Enable shadow mapping only if needed
+    renderer.shadowMap.enabled = false;
+    
+    // Optimize renderer
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    mount.appendChild(renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.03);
-    scene.add(ambientLight);
-
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.1);
     directionalLight.position.set(-22, 44, -8);
-    scene.add(directionalLight);
 
-    // Adjust camera position to look at the globe and slightly downward
+    scene.add(ambientLight, directionalLight);
     camera.position.set(0, 1, 2);
+
+    return { scene, camera, renderer };
+  }, []);
+
+  // Memoize marker creation function
+  const createMarkerWithRipple = useMemo(() => (model: THREE.Group) => {
+    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+    const ripple = new THREE.Mesh(rippleGeometry, createRippleMaterial());
+    const hoverMesh = new THREE.Mesh(hoverGeometry, hoverMaterial);
+
+    const radius = 1.12;
+    const latitude = 28.6139;
+    const longitude = 165.2090;
+
+    const latRad = THREE.MathUtils.degToRad(latitude);
+    const lonRad = THREE.MathUtils.degToRad(longitude);
+
+    const x = radius * Math.cos(latRad) * Math.sin(lonRad);
+    const y = radius * Math.sin(latRad);
+    const z = radius * Math.cos(latRad) * Math.cos(lonRad);
+
+    const position = new THREE.Vector3(x, y, z);
+    marker.position.copy(position);
+    ripple.position.copy(position);
+    hoverMesh.position.copy(position);
+
+    marker.scale.set(0.3, 0.3, 0.3);
+    ripple.scale.set(1, 1, 1);
+    hoverMesh.scale.set(1, 1, 1);
+
+    model.add(marker, ripple, hoverMesh);
+
+    return { marker, ripple, hoverMesh };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !mountRef.current) return;
+
+    const mount = mountRef.current;
+    const { scene, camera, renderer } = setupScene(mount);
+    
+    sceneRef.current = scene;
+    cameraRef.current = camera;
+    rendererRef.current = renderer;
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controlsRef.current = controls;
@@ -60,180 +146,83 @@ const ModelViewer: React.FC = () => {
     controls.dampingFactor = 0.25;
     controls.screenSpacePanning = false;
     controls.maxPolarAngle = Math.PI / 2;
+    controls.enableZoom = false;
 
-    // Disable zoom
-    (controls as any).enableZoom = false;
-
+    // Optimize GLTF loader
     const loader = new GLTFLoader();
     loader.load(
-      '/earth.glb', // Earth model path
+      '/earth.glb',
       (gltf) => {
         const model = gltf.scene;
+        
+        // Optimize model
+        model.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.geometry.computeBoundingBox();
+            child.geometry.computeBoundingSphere();
+          }
+        });
+
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         model.position.sub(center);
-
-        // Adjust model position to bring India into view
-        model.rotation.y = Math.PI; // Rotate the model to show India
-        model.position.set(0, 0, 0); // Center the model
+        model.rotation.y = Math.PI;
+        model.position.set(0, 0, 0);
 
         scene.add(model);
         modelRef.current = model;
 
-        // Create marker with ripple effect
-        const createMarkerWithRipple = () => {
-          // Marker
-          const markerGeometry = new THREE.SphereGeometry(0.05, 32, 32);
-          const markerMaterial = new THREE.MeshBasicMaterial({ color: 0x00D6FF });
-          const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+        const { marker, ripple, hoverMesh } = createMarkerWithRipple(model);
+        markerRef.current = marker;
+        rippleRef.current = ripple;
+        hoverMeshRef.current = hoverMesh;
 
-          // Ripple
-          const rippleGeometry = new THREE.SphereGeometry(0.05, 32, 32);
-          const rippleMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-              time: { value: 0 },
-              color: { value: new THREE.Color(0x00D6FF) },
-              opacity: { value: 0.5 }
-            },
-            vertexShader: `
-              uniform float time;
-              varying vec3 vPosition;
-              void main() {
-                vPosition = position;
-                vec3 newPosition = position * (1.0 + sin(time * 3.0) * 0.5);
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
-              }
-            `,
-            fragmentShader: `
-              uniform float time;
-              uniform vec3 color;
-              uniform float opacity;
-              varying vec3 vPosition;
-              void main() {
-                float pulse = sin(time * 3.0) * 0.5 + 0.5;
-                float alpha = opacity * (1.0 - length(vPosition)) * pulse;
-                gl_FragColor = vec4(color, alpha);
-              }
-            `,
-            transparent: true,
-            depthWrite: false
-          });
-          const ripple = new THREE.Mesh(rippleGeometry, rippleMaterial);
+        // Optimize raycaster
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        const tempVector = new THREE.Vector3();
 
-          // Set marker and ripple position
-          const radius = 1.12;
-          const latitude = 28.6139; // New Delhi latitude
-          const longitude = 165.2090; // Corrected longitude for New Delhi
+        const onMouseMove = (event: MouseEvent) => {
+          const rect = mount.getBoundingClientRect();
+          mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+          mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-          // Convert latitude/longitude to radians
-          const latRad = THREE.MathUtils.degToRad(latitude);
-          const lonRad = THREE.MathUtils.degToRad(longitude);
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObject(hoverMesh, true);
 
-          // Spherical to Cartesian conversion
-          const x = radius * Math.cos(latRad) * Math.sin(lonRad);
-          const y = radius * Math.sin(latRad);
-          const z = radius * Math.cos(latRad) * Math.cos(lonRad);
-
-          // Position marker and ripple
-          marker.position.set(x, y, z);
-          ripple.position.set(x, y, z);
-
-          // Create larger invisible hover area
-          const hoverGeometry = new THREE.SphereGeometry(0.2, 32, 32); // Increased hover area
-          const hoverMaterial = new THREE.MeshBasicMaterial({ 
-            transparent: true, 
-            opacity: 0 
-          });
-          const hoverMesh = new THREE.Mesh(hoverGeometry, hoverMaterial);
-          hoverMesh.position.set(x, y, z);
-
-          // Scale adjustments
-          marker.scale.set(0.3, 0.3, 0.3);
-          ripple.scale.set(1, 1, 1);
-          hoverMesh.scale.set(1, 1, 1);
-
-          // Add to scene
-          model.add(marker);
-          model.add(ripple);
-          model.add(hoverMesh);
-
-          markerRef.current = marker;
-          rippleRef.current = ripple;
-          hoverMeshRef.current = hoverMesh;
-
-          // Add event listeners for hover
-          const raycaster = new THREE.Raycaster();
-          const mouse = new THREE.Vector2();
-
-          const onMouseMove = (event: MouseEvent) => {
-            if (!currentMount || !camera || !scene || !hoverMesh) return;
-
-            // Calculate mouse position in normalized device coordinates
-            const rect = currentMount.getBoundingClientRect();
-            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-            // Update the picking ray with the camera and mouse position
-            raycaster.setFromCamera(mouse, camera);
-
-            // Use the hover mesh for intersection
-            const intersects = raycaster.intersectObject(hoverMesh, true);
-
-            if (intersects.length > 0) {
-              setIsHovering(true);
-              
-              // Convert marker's world position to screen coordinates
-              const markerWorldPosition = new THREE.Vector3();
-              marker.getWorldPosition(markerWorldPosition);
-
-              // Project the world position to screen coordinates
-              const screenPosition = markerWorldPosition.clone();
-              screenPosition.project(camera);
-
-              // Convert to screen space
-              const halfWidth = rect.width / 2;
-              const halfHeight = rect.height / 2;
-              
-              const screenX = (screenPosition.x * halfWidth) + halfWidth + rect.left;
-              const screenY = -(screenPosition.y * halfHeight) + halfHeight + rect.top;
-
-              setMarkerScreenPosition({ x: screenX, y: screenY });
-            } else {
-              setIsHovering(false);
-            }
-          };
-
-          currentMount.addEventListener('mousemove', onMouseMove);
-
-          // Cleanup function
-          return () => {
-            currentMount.removeEventListener('mousemove', onMouseMove);
-          };
+          if (intersects.length > 0) {
+            setIsHovering(true);
+            marker.getWorldPosition(tempVector);
+            tempVector.project(camera);
+            
+            const halfWidth = rect.width / 2;
+            const halfHeight = rect.height / 2;
+            
+            setMarkerScreenPosition({
+              x: (tempVector.x * halfWidth) + halfWidth + rect.left,
+              y: -(tempVector.y * halfHeight) + halfHeight + rect.top
+            });
+          } else {
+            setIsHovering(false);
+          }
         };
 
-        // Create marker and ripple after the globe is loaded
-        const cleanup = createMarkerWithRipple();
-
-        // Return cleanup function
-        return cleanup;
+        mount.addEventListener('mousemove', onMouseMove);
+        return () => mount.removeEventListener('mousemove', onMouseMove);
       },
-      (event: ProgressEvent) => {
-        console.log(`Loading progress: ${(event.loaded / event.total) * 100}%`);
-      },
-      (error) => {
-        console.error('An error occurred while loading the model:', error);
-      }
+      undefined,
+      console.error
     );
 
     const clock = new THREE.Clock();
+    
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationFrameRef.current = requestAnimationFrame(animate);
       
       if (modelRef.current) {
         modelRef.current.rotation.y += 0.001;
       }
 
-      // Update ripple shader time uniform
       if (rippleRef.current) {
         const rippleMaterial = rippleRef.current.material as THREE.ShaderMaterial;
         rippleMaterial.uniforms.time.value = clock.getElapsedTime();
@@ -245,37 +234,37 @@ const ModelViewer: React.FC = () => {
     animate();
 
     const handleResize = () => {
-      if (currentMount) {
-        const width = currentMount.clientWidth;
-        const height = currentMount.clientHeight;
+      if (!mount) return;
+      
+      const width = mount.clientWidth;
+      const height = mount.clientHeight;
 
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-      }
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
     };
+    
     window.addEventListener('resize', handleResize);
 
-    // Comprehensive cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
-      
-      // Dispose of Three.js resources
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
       renderer.dispose();
       controls.dispose();
       
-      // Remove renderer from DOM
-      if (currentMount && renderer.domElement.parentNode === currentMount) {
-        currentMount.removeChild(renderer.domElement);
+      if (mount && renderer.domElement.parentNode === mount) {
+        mount.removeChild(renderer.domElement);
       }
     };
-  }, []); // Empty dependency array ensures this runs only once
+  }, [setupScene, createMarkerWithRipple]);
 
 
 
   return (
     
-    <section id="what-we-do"  className="bg-black text-white py-[72px] sm:py-8 ">
+    <section id="what-we-do"  className="bg-black text-white py-4 md:py-8">
       <div className="w-full bg-black/90 py-10 sm:py-4 px-4">
         <div className="container">
           {/* Section Heading */}
@@ -283,27 +272,27 @@ const ModelViewer: React.FC = () => {
             Everything we do
           </h2>
           <div className="max-w-xl mx-auto">
-            <p className="text-center mt-5 text-xl text-white/70">
+            <p className="text-center mt-5 text-base sm:text-xl text-white/70">
               We are passionate about delivering excellence in everything we do, creating an impact on our customers and the world.
             </p>
           </div>
           
           {/* Main Content Container */}
-          <div className=" flex flex-col sm:mt-8 mt-4 lg:flex-row gap-4 sm:gap-4">
+          <div className=" flex flex-col md:mt-8 lg:flex-row md:gap-4 lg:gap-2">
             {/* Slider/Content Container - Left on large screens, top on small screens */}
             <div className="w-full lg:w-1/2 flex justify-center items-center">
               {/* Left: Slider Section */}
-              <div className="w-[380px] lg:w-[850px] sm:w-[750px] h-[550px]  rounded-lg text-white flex flex-col">
+              <div className="w-[380px] lg:w-[850px] sm:w-[750px] h-[550px] mr-1 md:mr-2 lg:mr-0 ml-0 lg:ml-12 rounded-lg text-white flex flex-col">
                 <ServicesCarousel />
               </div>
             </div>
             
             {/* Globe Container - Right on large screens, bottom on small screens */}
-            <div className="w-full lg:w-1/2  lg:px-16 lg:pr-6
+            <div className="w-full lg:w-1/2 lg:px-16 lg:pr-6
               flex justify-center items-center"
             >
               <div className="w-full relative
-                h-[380px]  
+                h-[350px]  
                 md:h-[500px]  
                 lg:h-[550px]
                 "
@@ -338,5 +327,4 @@ const ModelViewer: React.FC = () => {
 
 export default ModelViewer;
 
-  
   

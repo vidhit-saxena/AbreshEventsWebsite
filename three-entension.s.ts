@@ -17,6 +17,7 @@ declare module 'three/examples/jsm/loaders/GLTFLoader' {
     import { Camera, EventDispatcher, MOUSE, Vector3 } from 'three';
   
     export class OrbitControls extends EventDispatcher {
+      enableZoom: boolean;
       constructor(object: Camera, domElement?: HTMLElement);
   
       // Event handling

@@ -16,6 +16,7 @@ import Footer from '@/app/HomePage/Footer';
 import NewsletterSignup from '@/app/HomePage/NewsletterSignUp';
 import ContactUs from '@/app/HomePage/ContactUs';
 import  UpcomingEvents  from '@/app/HomePage/UpcomingEvents';
+import ScrollToTop from '@/Components/ScrollToTop';
 
 
 
@@ -38,6 +39,7 @@ export default function Home() {
       <ContactUs/>
       <NewsletterSignup/>
       <Footer/>
+      <ScrollToTop/>
       
     </>
   );

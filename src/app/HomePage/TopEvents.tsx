@@ -114,17 +114,21 @@ export const TopEvents: React.FC = () => {
         await controls.start({
           x: `-${scrollContainer.scrollWidth / 2}px`,
           transition: {
-            duration: 20,
+            duration: 30,
             repeat: Infinity,
             ease: 'linear'
           }
         })
+      } else {
+        // Stop the animation when hovering
+        await controls.stop()
       }
     }
 
     handleAnimation()
   }, [isHovering, controls])
 
+  // Handle manual scroll
   const handleManualScroll = () => {
     setIsHovering(true)
     setTimeout(() => setIsHovering(false), 2000)
@@ -132,13 +136,13 @@ export const TopEvents: React.FC = () => {
 
   return (
     <section className='relative bg-black w-full overflow-hidden'>
-      <div className='w-full px-4 py-16 '>
+      <div className='w-full px-4 py-16 md:py-20 '>
         <div className='text-center mb-8 sm:mb-10'>
           <h2 className='text-4xl sm:text-4xl md:text-6xl font-bold text-white mb-4'>
             Top Events
           </h2>
-          <p className='max-w-xl mx-auto text-gray-400 text-sm sm:text-base md:text-lg'>
-            Discover our most prestigious and impactful events
+          <p className='max-w-xl mx-auto text-gray-400 text-sm sm:text-base md:text-lg px-4'>
+            Discover and explore about our most prestigious and impactful events ever held.
           </p>
         </div>
 
@@ -150,13 +154,13 @@ export const TopEvents: React.FC = () => {
           onMouseLeave={() => setIsHovering(false)}
         >
           <motion.div
-            className='flex space-x-4 will-change-transform'
+            className='flex space-x-4 md:space-x-8 will-change-transform'
             animate={controls}
           >
             {[...topEvents, ...topEvents].map((event, index) => (
               <Link href={event.link} key={`${event.id}-${index}`} className='block'>
                 <motion.div
-                  className={`relative w-72 h-72 flex-shrink-0 cursor-pointer transition-all duration-300 
+                  className={`relative w-64 h-72 md:w-96 md:h-80 flex-shrink-0 cursor-pointer transition-all duration-300 
                     ${hoveredEvent === event.id
                       ? 'scale-110 z-10 shadow-2xl'
                       : 'scale-100 z-0'
@@ -204,11 +208,11 @@ export const TopEvents: React.FC = () => {
 
       <style jsx>{`
         .no-scrollbar::-webkit-scrollbar {
-          display: none; /* Chrome, Safari, and Opera */
+          display: none;
         }
         .no-scrollbar {
-          -ms-overflow-style: none; /* IE and Edge */
-          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </section>
